@@ -1,13 +1,6 @@
-import { useState} from 'react';
+import { useState } from 'react';
+import { Part } from '../../types/types';
 import './index.css';
-
-interface Part {
-    partName: string;
-    partId: string;
-    targetQty: number;
-    currQty: number;
-    imgUrl: string;
-}
 
 interface PartBoxProps {
     part: Part;

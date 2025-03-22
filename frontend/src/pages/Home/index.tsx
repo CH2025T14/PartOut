@@ -2,7 +2,8 @@ import { Input, Image, Empty, message, Tooltip } from 'antd';
 import { UploadOutlined, PlusOutlined, BorderOuterOutlined, CalendarOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Link, Outlet } from "react-router";
 import React from 'react';
-import { getSetData, Set } from '../../services/fetchSetData';
+import { getSetData } from '../../services/fetchSetData';
+import { Set } from '../../types/types';
 // import { getPartData } from '../../services/fetchPartData';
 import './home.css';
 
