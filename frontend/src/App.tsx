@@ -10,6 +10,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="*" element={<Navigate to="/" replace />} />
       <Route path="/set_page" element={<SetPage />} />
+      <Route path="/set_page/:setNumber/:partCountData" element={<SetPage />} />
     </Routes>
   )
 }

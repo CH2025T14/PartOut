@@ -1,13 +1,14 @@
 import { Tabs } from 'antd';
 import { LinkOutlined } from '@ant-design/icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
+import { useParams } from 'react-router-dom';
 import './index.css';
 import PartBox from '../partBox/index';
 import { getPartData } from '../../services/fetchPartData';
 import { getSetData } from '../../services/fetchSetData';
 import { Part, Set } from '../../types/types';
 
-const set_ID = 6666;
+// const set_ID = 6666;
 
 export default function SetPage() {
   const [key, setKey] = useState('1');
@@ -25,6 +26,9 @@ export default function SetPage() {
 
   // TODO: change this
   const urlDataIsNotGiven = true;
+  
+  const { setNumber } = useParams<{ setNumber: string }>();
+  const { partCountData } = useParams<{ partCountData: string }>();
 
   const items = [
     {
@@ -107,9 +111,9 @@ export default function SetPage() {
   useEffect(() => {
     const fetchPartData = async () => {
       console.log('fetching part data');
-      const partData = await getPartData(set_ID);
+      const partData = await getPartData(setNumber);
       setPartData(partData);
-      const setData = await getSetData(set_ID);
+      const setData = await getSetData(setNumber);
       if (setData) {
         setSetData(setData);
       }
