@@ -21,6 +21,7 @@ export interface Part {
 }
 
 export interface Set {
+  number: number;
   name: string;
   year: number;
   numParts: number;

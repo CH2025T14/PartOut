@@ -70,6 +70,7 @@ export default function Home(): React.ReactElement {
 
     // Create a new set object
     const newSet = {
+      number: setData.number,
       name: setData.name,
       year: setData.year,
       numParts: setData.numParts,
@@ -187,7 +188,7 @@ export default function Home(): React.ReactElement {
             {setList.map((set, index) => (
               <div key={index} className="projectItem">
                   <Popover content={editProjectContent} title="Edit Project">
-                    <Link to="/set_page">
+                    <Link to={`/set_page/${set.number}`}>
                       <EditOutlined
                         className="optionBtn editBtn"
                       />

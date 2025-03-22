@@ -23,6 +23,7 @@ export async function getSetData(setNum: number): Promise<Set | undefined> {
 
     const apiData = await response.json();
     const setData = {
+      number: setNum,
       name: apiData.name,
       year: apiData.year,
       numParts: apiData.num_parts,
