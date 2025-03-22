@@ -66,3 +66,30 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* CUSTOM CSS STYLING STARTS HERE */
+
+/* SearchBar Button */
+:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid {
+  background-color: #4d4d4d;
+  color: #fff;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+}
+:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+  background-color: #8ae9c9;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+/* SearchBar Radius */
+.ant-input-search :where(.css-dev-only-do-not-override-tjsggz).ant-input-group .ant-input-affix-wrapper:not(:last-child) {
+  border-start-start-radius: 1rem;
+  border-end-start-radius: 1rem;
+}
+:where(.css-dev-only-do-not-override-tjsggz).ant-input-group-wrapper-lg .ant-input-group-addon {
+  /* border-radius: 1rem; */
+}
