@@ -127,7 +127,7 @@ export default function SetPage() {
         setSetData(setData);
       }
       if (urlDataIsNotGiven){
-        generateUrlDataObject(setData?.numParts || 0);
+        generateUrlDataObject(partData.length);
       }
 
     };
