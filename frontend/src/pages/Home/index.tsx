@@ -151,6 +151,11 @@ export default function Home(): React.ReactElement {
         enterButton
         size="large"
         onSearch={onSearch}
+        onChange={
+          () => {
+            setSetData(null);
+          }
+        }
         className="searchInput"
         style={{ width: '70%', maxWidth: '600px', margin: '0 auto' }}
       />
