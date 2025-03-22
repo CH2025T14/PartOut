@@ -10,8 +10,6 @@ import type { Part, Set } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 
 
-
-
 export default function SetPage() {
   const navigate = useNavigate();
   const [key, setKey] = useState('1');
@@ -34,13 +32,13 @@ export default function SetPage() {
   const { setNumber } = useParams<{ setNumber: string }>();
   const { partCountData } = useParams<{ partCountData: string | undefined}>();
 
-const items = [
-  {
-    key: '1',
-      label: 'Parts List',
-  },
-  {
-    key: '2',
+  const items = [
+    {
+      key: '1',
+        label: 'Remaining Parts',
+    },
+    {
+      key: '2',
       label: 'Completed Parts',
     },
   ];
@@ -69,8 +67,6 @@ const items = [
       };
     });
   }
-
-
 
 
 function generateBase64URL(urlData: { url: string, partsCount: number[] }): string {
