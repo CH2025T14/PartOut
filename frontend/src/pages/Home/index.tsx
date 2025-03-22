@@ -88,7 +88,7 @@ export default function Home(): React.ReactElement {
       // Update the set list in local storage
       const modifiedSetList = newSetList.map(set => ({
         ...set,
-        partUrl: "test"
+        partUrl: "0"
       }));
       localStorage.setItem('setList', JSON.stringify(modifiedSetList));
       return newSetList;
