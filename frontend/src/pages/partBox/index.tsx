@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { Part } from '../../types/types';
 import './index.css';
@@ -12,41 +12,57 @@ interface PartBoxProps {
 }
 
 export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQty }: PartBoxProps) {
-  const [currentPart, setCurrentPart] = useState(part);
   const [currentQty, setCurrentQty] = useState(currQty);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  
   useEffect(() => {
     setCurrentQty(currQty);
   }, [currQty]);
 
-  function removeCurrentPartAndUpdate(part: Part) {
+  useEffect(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
+    if (currQty === part.targetQty) {
+      console.log(`Target quantity reached for ${part.partName}, setting timer...`);
+      
+      timerRef.current = setTimeout(() => {
+        console.log(`Timer complete for ${part.partName}`);
+        setCurrentQty(part.currQty);
+      }, 3000);
+    }
+
+    
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [currQty, part.targetQty]);
+
+  function handleRemove() {
     removeCurrentPart(part);
-    if (currentQty > 0) {
-      setCurrentQty(currentQty - 1);
-      part.currQty = currentQty - 1;
-    }
   }
 
-  function addCurrentPartAndUpdate(part: Part) {
+  function handleAdd() {
     addCurrentPart(part);
-    if (currentQty < part.targetQty) {
-      setCurrentQty(currentQty + 1);
-      part.currQty = currentQty + 1;
-    }
   }
-
 
   return (
     <div className='part-box'>
-      <Popover content={currentPart.partName} trigger="hover">
-        <img src={currentPart.imgUrl} alt={currentPart.partName} />
+      <Popover content={part.partName} trigger="hover">
+        <img src={part.imgUrl} alt={part.partName} />
       </Popover>
       <div>
-        <p>{currentQty} out of {currentPart.targetQty}</p>
+        <p>{currentQty} out of {part.targetQty}</p>
         <div style={{ width: '100%', backgroundColor: '#e0e0e0', borderRadius: '4px', height: '10px' }}>
           <div
             style={{
-              width: `${(currentPart.targetQty > 0 ? (currentQty / currentPart.targetQty) * 100 : 0)}%`,
+              width: `${(part.targetQty > 0 ? (currentQty / part.targetQty) * 100 : 0)}%`,
               backgroundColor: '#52c597',
               height: '100%',
               borderRadius: '4px',
@@ -55,13 +71,25 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
             role="progressbar"
             aria-valuenow={currentQty}
             aria-valuemin={0}
-            aria-valuemax={currentPart.targetQty}
+            aria-valuemax={part.targetQty}
           ></div>
         </div>
       </div>
       <div className='part-box-button-container'>
-        <button className="minusBtn" onClick={() => removeCurrentPartAndUpdate(currentPart)}><MinusOutlined /></button>
-        <button className="plusBtn" onClick={() => addCurrentPartAndUpdate(currentPart)}><PlusOutlined /></button>
+        <button 
+          className="minusBtn" 
+          onClick={handleRemove}
+          disabled={currQty <= 0}
+        >
+          <MinusOutlined />
+        </button>
+        <button 
+          className="plusBtn" 
+          onClick={handleAdd}
+          disabled={currQty >= part.targetQty}
+        >
+          <PlusOutlined />
+        </button>
       </div>
     </div>
   );

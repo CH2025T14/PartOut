@@ -16,6 +16,8 @@ export default function SetPage() {
 
   const [numCompletedParts, setNumCompletedParts] = useState<number>(0);
 
+  const [firstRender, setFirstRender] = useState<boolean>(true);
+
   const onChange = (newKey: string) => {
     console.log(newKey);
     setKey(newKey);
@@ -89,8 +91,14 @@ export default function SetPage() {
             const newCurrQty = p.currQty + 1;
 
             if (urlData && urlData.partsCount) {
-              urlData.partsCount[partIndex] = newCurrQty;
-              return { ...p, currQty: newCurrQty };
+              setUrlData(prev => {
+                const newPartsCount = [...prev.partsCount];
+                newPartsCount[partIndex] = newCurrQty;
+                return {
+                  ...prev,
+                  partsCount: newPartsCount
+                };
+              });
             }
            
           }
@@ -115,7 +123,14 @@ export default function SetPage() {
           if (p.partId === partId && p.currQty > 0) {
             const newCurrQty = p.currQty - 1;
             if (urlData && urlData.partsCount) {
-              urlData.partsCount[partIndex] = newCurrQty;
+              setUrlData(prev => {
+                const newPartsCount = [...prev.partsCount];
+                newPartsCount[partIndex] = newCurrQty;
+                return {
+                  ...prev,
+                  partsCount: newPartsCount
+                };
+              });
             }
 
             console.log(partIndex, "and", newCurrQty);
@@ -127,6 +142,10 @@ export default function SetPage() {
 
       setNumCompletedParts(prev => prev - 1);
     }
+  }
+
+  function update_NumCompletedParts(num: number){
+    setNumCompletedParts(prev => prev + num);
   }
 
 
@@ -155,7 +174,10 @@ export default function SetPage() {
       console.log('urlData changed, applying to currentQty');
       console.log(urlData.partsCount);
       applyURLdata2CurrentQty();
-      
+      if (firstRender){
+        update_NumCompletedParts(urlData.partsCount.reduce((acc, curr) => acc + curr, 0));
+        setFirstRender(false);
+      }
     }
   }, [urlData]);
 
