@@ -6,15 +6,25 @@ import './home.css';
 const { Search } = Input;
 
 export default function Home(): React.ReactElement {
+  const onSearch = (value: string) => {
+    console.log(value);
+
+    // add fetch logic
+  }
 
   return (
     <div>
-      <h1>PartOut Logo Here..</h1>
+      <div className="logo">
+        <h1>PartOut Logo Here..</h1>
+      </div>
+
       <Search
         placeholder="Enter your set number(s)"
         allowClear
         enterButton
         size="large"
+        onSearch={onSearch}
+        className="searchInput"
       />
       <p className="dividerText">Or</p>
       <div>
