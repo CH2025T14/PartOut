@@ -53,16 +53,11 @@ const items = [
   }
 
   function generateURL(urlData: {url: string, partsCount: number[]}) {
-    let url = urlData.url;
-    for (let i = 0; i < urlData.partsCount.length; i++) {
-      url = url + urlData.partsCount[i] + '-';
-    }
-    url = url.slice(0, -1);
-    return url;
+    return generateBase64URL(urlData);
   }
 
   function applyUrlDataObject(partCountData: string){
-    const partsCount_data = partCountData.split('-').map(Number);
+    const partsCount_data = decodeBase64URL(partCountData);
 
 
     setUrlData(prev => {
@@ -73,6 +68,27 @@ const items = [
       };
     });
   }
+
+
+
+
+function generateBase64URL(urlData: { url: string, partsCount: number[] }): string {
+  const partsString = urlData.partsCount.join('-');
+  
+  return btoa(partsString);
+}
+
+
+function decodeBase64URL(base64: string): number[] {
+  try {
+    const decodedString = atob(base64);
+    
+    return decodedString.split('-').map(Number);
+  } catch (error) {
+    console.error('Base64 decoding error', error);
+    return [];
+  }
+}
 
 
   function applyURLdata2CurrentQty(){
