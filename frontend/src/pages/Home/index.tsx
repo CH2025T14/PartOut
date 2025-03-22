@@ -188,7 +188,7 @@ export default function Home(): React.ReactElement {
             {setList.map((set, index) => (
               <div key={index} className="projectItem">
                   <Popover content={editProjectContent} title="Edit Project">
-                    <Link to={`/set_page/${set.number}`}>
+                    <Link to={`/set_page/${set.number}/${set.partUrl}`}>
                       <EditOutlined
                         className="optionBtn editBtn"
                       />
