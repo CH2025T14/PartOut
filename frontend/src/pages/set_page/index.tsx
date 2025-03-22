@@ -1,5 +1,5 @@
-import { Popover, Tabs, Spin } from 'antd';
-import { ShareAltOutlined } from '@ant-design/icons';
+import { Popover, Tabs, Spin, Tag } from 'antd';
+import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useState, useEffect, use } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
@@ -100,7 +100,7 @@ export default function SetPage() {
                 };
               });
             }
-           
+
           }
           return p;
         });
@@ -193,29 +193,8 @@ export default function SetPage() {
       ) : (
         <>
           <div className='set-page-set-info'>
-            {/* TODO: replace with the set url */}
-            <a href='#' target="_blank" rel="noopener noreferrer">
-              <img src={setData?.setImgUrl} alt="set" />
-            </a>
-            <p>{setData?.name}</p>
-            <div className='set-page-percentage-details'>
-              <p>{numCompletedParts} out of {setData?.numParts} parts</p>
-              <div style={{ width: '90%', backgroundColor: '#efefef', borderRadius: '4px', height: '1rem' }}>
-                <div
-                  style={{
-                    width: `${(setData?.numParts > 0 ? (numCompletedParts / setData?.numParts) * 100 : 0)}%`,
-                    backgroundColor: '#52c597',
-                    height: '100%',
-                    borderRadius: '4px',
-                    transition: 'width 0.3s ease-in-out'
-                  }}
-                  role="progressbar"
-                  aria-valuenow={numCompletedParts}
-                  aria-valuemin={0}
-                  aria-valuemax={setData?.numParts}
-                ></div>
-              </div>
-              <p>{Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
+            <div className="headerLogoContainer">
+              <ProductFilled className="headerLogo" /><h1>PartOut</h1>
             </div>
             <Popover content="Click to generate & copy the URL">
               <ShareAltOutlined
@@ -225,6 +204,34 @@ export default function SetPage() {
                 }}
               />
             </Popover>
+          </div>
+          <div style={{ width: '100%', backgroundColor: '#efefef', height: '1rem' }}>
+            <div
+              style={{
+                width: `${(setData?.numParts > 0 ? (numCompletedParts / setData?.numParts) * 100 : 0)}%`,
+                backgroundColor: '#52c597',
+                height: '100%',
+                transition: 'width 0.3s ease-in-out'
+              }}
+              role="progressbar"
+              aria-valuenow={numCompletedParts}
+              aria-valuemin={0}
+              aria-valuemax={setData?.numParts}
+            ></div>
+          </div>
+
+          <div className='set-container'>
+            <a href='#' target="_blank" rel="noopener noreferrer">
+              <img src={setData?.setImgUrl} alt="set" />
+            </a>
+            <p className='setTitle'>{setData?.name}</p>
+            <div className='setMetadata'>
+              <Tag icon={<UnorderedListOutlined />}>{setData?.numParts} parts</Tag>
+              <Tag icon={<CalendarOutlined />}>{setData?.year}</Tag>
+            </div>
+            <div className='set-page-percentage-details'>
+              <p>{numCompletedParts} out of {setData?.numParts} parts / {Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
+            </div>
           </div>
 
           <div className='set-page-tabs'>
