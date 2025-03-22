@@ -75,7 +75,7 @@ export default function Home(): React.ReactElement {
       year: setData.year,
       numParts: setData.numParts,
       setImgUrl: setData.setImgUrl,
-      partUrl: "0",
+      partUrl: "",
     };
 
     // Check if the set already exists in the set list
@@ -188,7 +188,7 @@ export default function Home(): React.ReactElement {
             {setList.map((set, index) => (
               <div key={index} className="projectItem">
                   <Popover content={editProjectContent} title="Edit Project">
-                    <Link to={`/set_page/${set.number}`}>
+                    <Link to={`/set_page/${set.number}/${set.partUrl}`}>
                       <EditOutlined
                         className="optionBtn editBtn"
                       />

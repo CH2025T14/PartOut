@@ -58,7 +58,7 @@ export default function SetPage() {
 
   function applyUrlDataObject(partCountData: string){
     const partsCount_data = partCountData.split('-').map(Number);
-    console.log(partsCount_data);
+
 
     setUrlData(prev => {
       return {
@@ -78,6 +78,28 @@ export default function SetPage() {
     });
   }
 
+  function update_local_storage(){
+    const setList = JSON.parse(localStorage.getItem('setList') || '[]');
+    const setIndex = setList.findIndex(set => set.number === Number(setNumber));
+    if (setIndex !== -1) {
+      setList[setIndex].partUrl = generateURL(urlData);
+      localStorage.setItem('setList', JSON.stringify(setList));
+      console.log('updated local storage');
+      console.log(setList[setIndex].partUrl);
+    }
+    else{
+      setList.push({
+        number: Number(setNumber),
+        partUrl: generateURL(urlData),
+        partsCount: urlData?.partsCount || [],
+        setImgUrl: setData?.setImgUrl,
+        name: setData?.name,
+        year: setData?.year,
+        numParts: setData?.numParts,
+      });
+      localStorage.setItem('setList', JSON.stringify(setList));
+    }
+  }
 
   // TODO: try to understand how it works
   function addCurrentPart(part: Part) {
@@ -107,6 +129,7 @@ export default function SetPage() {
       });
 
       setNumCompletedParts(prev => prev + 1);
+      
     }
   }
 
@@ -133,7 +156,6 @@ export default function SetPage() {
               });
             }
 
-            console.log(partIndex, "and", newCurrQty);
             return { ...p, currQty: newCurrQty };
           }
           return p;
@@ -151,7 +173,6 @@ export default function SetPage() {
 
   useEffect(() => {
     const fetchPartData = async () => {
-      console.log('fetching part data');
       const partData = await getPartData(setNumber);
       setPartData(partData);
       const setData = await getSetData(setNumber);
@@ -162,7 +183,6 @@ export default function SetPage() {
         generateUrlDataObject(partData.length);
       }
       else{
-        console.log('retrieving url data');
         applyUrlDataObject(partCountData);
       }
     };
@@ -171,17 +191,23 @@ export default function SetPage() {
 
   useEffect(() => {
     if (urlData?.partsCount) {
-      console.log('urlData changed, applying to currentQty');
-      console.log(urlData.partsCount);
       applyURLdata2CurrentQty();
       if (firstRender){
         update_NumCompletedParts(urlData.partsCount.reduce((acc, curr) => acc + curr, 0));
+
         setFirstRender(false);
       }
+      update_local_storage();
     }
   }, [urlData]);
 
+  function getBaseUrl() {
+    const protocol = window.location.protocol;
+    const host = window.location.host; // includes port if present
+    return `${protocol}//${host}`;
+  }
 
+  const baseUrl = getBaseUrl();
 
   return (
     <div className='set-page-container'>
@@ -221,7 +247,7 @@ export default function SetPage() {
               <ShareAltOutlined
                 className='set-page-share-icon'
                 onClick={() => {
-                  console.log(generateURL(urlData));
+                  navigator.clipboard.writeText(baseUrl + '/set_page/' + setData?.number + '/' + generateURL(urlData));
                 }}
               />
             </Popover>
