@@ -38,18 +38,19 @@
   display: flex;
   align-items: center;
   width: 100%;
-  cursor: pointer;
   h1 {
     font-size: 2rem;
     font-weight: 600;
     color: var(--emerald2);
     margin-left: 0.4rem;
+    cursor: pointer;
   }
 }
 
 .headerLogo {
   font-size: 2rem;
   color: var(--emerald2);
+  cursor: pointer;
 }
 
 .set-container {

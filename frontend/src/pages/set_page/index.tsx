@@ -236,10 +236,8 @@ export default function SetPage() {
       ) : (
         <>
           <div className='set-page-set-info'>
-            <div className="headerLogoContainer" onClick={() => {
-                navigate('/');
-              }}>
-              <ProductFilled className="headerLogo" /><h1>PartOut</h1>
+            <div className="headerLogoContainer" >
+              <ProductFilled className="headerLogo" onClick={() => {navigate('/');}}/><h1 onClick={() => {navigate('/');}}>PartOut</h1>
             </div>
             <Popover content="Click to generate & copy the URL">
               <ShareAltOutlined
