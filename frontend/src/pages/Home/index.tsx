@@ -1,5 +1,6 @@
-import { Input, Image } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Input, Image, Empty } from 'antd';
+import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
+import { Link, Outlet } from "react-router";
 import React from 'react';
 import { getSetData, Set } from '../../services/fetchSetData';
 // import { getPartData } from '../../services/fetchPartData';
@@ -9,6 +10,7 @@ const { Search } = Input;
 
 export default function Home(): React.ReactElement {
   const [setData, setSetData] = React.useState<Set | null>(null);
+
 
   const onSearch = async (value: string) => {
     if (!value || isNaN(parseInt(value))) {
@@ -20,8 +22,8 @@ export default function Home(): React.ReactElement {
       return;
     }
     setSetData(setData);
-    console.log("Set Data:");
     // const partData = await getPartData(parseInt(value));
+    // console.log("Part Data:");
     // console.log(partData);
   }
 
@@ -41,16 +43,16 @@ export default function Home(): React.ReactElement {
       />
       <p className="dividerText">Or</p>
       <div>
-        {/* <Link to="/msclassify"> */}
-          <button className="openBtn">
-            Open <UploadOutlined />
-          </button>
-        {/* </Link> */}
+        <button className="openBtn">
+          Open <UploadOutlined />
+        </button>
       </div>
-      <div>
+      <div className="setDataContainer">
         {setData && (
           <div className="setDataThumbnail">
-            <button className="addSetBtn">+</button>
+            <Link to="/set_page">
+              <button className="addSetBtn"><PlusOutlined /></button>
+            </Link>
             <Image
               width={200}
               src={setData.setImgUrl}
@@ -64,6 +66,11 @@ export default function Home(): React.ReactElement {
           </div>
         )}
       </div>
+      <hr />
+      <div className="projectContainer">
+        <Empty />
+      </div>
+      <Outlet />
     </div>
   );
 }
