@@ -22,8 +22,9 @@ export async function getPartData(setNum: number, page: number = 1): Promise<Par
 
     const partData = rawData.results
     .filter((item: ApiResponseItem) => !item.is_spare)
-    .map((item: ApiResponseItem) => {
+    .map((item: ApiResponseItem, index: number) => {
       return {
+        partIndex: index,
         partName: item.part.name,
         partId: item.id,
         targetQty: item.quantity,

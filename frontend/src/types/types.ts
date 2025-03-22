@@ -12,6 +12,7 @@ export interface ApiPart {
 }
 
 export interface Part {
+  partIndex: number;
   partName: string;
   partId: string;
   targetQty: number;
