@@ -16,6 +16,8 @@
   --lightgray1: #eeeeee;
   --lightgray2: #e0e0e0;
   --black: #616161;
+  --red: #FF8080;
+  --blue: #279EFF;
 }
 
 a {
@@ -127,5 +129,10 @@ button:focus-visible {
 
 /* Empty Description */
 :where(.css-dev-only-do-not-override-tjsggz).ant-empty .ant-empty-description {
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* PopOver Text */
+:where(.css-dev-only-do-not-override-tjsggz).ant-popover .ant-popover-title {
   font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }

@@ -10,7 +10,6 @@
   justify-content: center;
   align-items: center;
   width: 70vw;
-  min-height: 100vh;
 }
 
 .logoContainer {
@@ -19,48 +18,12 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 1rem 0;
+  margin: 2rem 0;
 }
 
 .mainLogo {
   font-size: 3rem;
   margin-right: 0.4rem;
-}
-
-.dividerText {
-  text-align: center;
-  margin: 1rem 0;
-  color: var(--black);
-  font-size: 0.9rem;
-}
-
-.openBtn {
-  background-color: var(--lightgray1);
-  border: none;
-  color: var(--black);
-  padding: 0.6rem 1.2rem;
-  text-align: center;
-  text-decoration: none;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 1.6rem;
-  transition: all 0.3s;
-  border: 2px solid var(--lightgray2);
-  margin-bottom: 1rem;
-}
-
-.openBtn:hover {
-  background-color: var(--lightgray2);
-  border: 2px solid var(--lightgray2);
-}
-
-.openBtn:active {
-  transform: translateY(2px);
-  border: 2px solid var(--lightgray2);
-}
-
-.openBtn:focus {
-  outline: none;
 }
 
 .setDataContainer {
@@ -160,13 +123,83 @@ hr {
   border: 1px solid var(--lightgray1);
 }
 
-.projectItem {
+.projectList {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+}
+
+.projectItem {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 80%;
-  margin: 1rem 0;
-  border: 2px solid var(--lightgray2);
+  width: 90%;
+  border-bottom: 1px solid var(--lightgray1);
   padding: 1rem;
+  gap: 1rem;
+}
+
+.projectItem:last-child {
+  border-bottom: none;
+}
+
+.projectMeta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h2 {
+    font-size: 1.5rem;
+    color: var(--black);
+  }
+}
+
+.projectThumbnail {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+
+  img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1em;
+    margin-right: 1rem;
+  }
+}
+
+.optionBtn {
+  background-color: var(--lightgray1);
+  border: none;
+  color: var(--black);
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all 0.3s;
+  border: 2px solid var(--lightgray2);
+}
+
+.deleteBtn:hover {
+  background-color: var(--red);
+  border: 2px solid var(--red);
+}
+
+.editBtn:hover {
+  background-color: var(--emerald);
+  border: 2px solid var(--emerald);
+}
+
+.optionBtn:active {
+  transform: translateY(2px);
+  border: 2px solid var(--lightgray2);
+}
+.optionBtn:focus {
+  outline: none;
 }

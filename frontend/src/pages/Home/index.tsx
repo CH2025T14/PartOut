@@ -1,5 +1,12 @@
-import { Input, Image, Empty, message, Tooltip } from 'antd';
-import { UploadOutlined, PlusOutlined, BorderOuterOutlined, CalendarOutlined, UnorderedListOutlined, CloseOutlined } from '@ant-design/icons';
+import { Input, Image, Empty, message, Popover } from 'antd';
+import {
+  PlusOutlined,
+  BorderOuterOutlined,
+  CalendarOutlined,
+  UnorderedListOutlined,
+  DeleteOutlined,
+  EditOutlined
+} from '@ant-design/icons';
 import { Link, Outlet } from "react-router";
 import React, { useEffect } from 'react';
 import { getSetData } from '../../services/fetchSetData';
@@ -111,6 +118,25 @@ export default function Home(): React.ReactElement {
   }, []);
 
 
+  // Content for the popover
+  const addProjectContent = (
+    <div>
+      <p>Click to add this set to your project.</p>
+    </div>
+  );
+
+  const editProjectContent = (
+    <div>
+      <p>Click to edit this project.</p>
+    </div>
+  );
+  const deleteProjectContent = (
+    <div>
+      <p>Click to delete this project.</p>
+    </div>
+  );
+
+
   return (
     <div className="homeContainer">
       {contextHolder}
@@ -127,23 +153,17 @@ export default function Home(): React.ReactElement {
         className="searchInput"
         style={{ width: '70%', maxWidth: '600px', margin: '0 auto' }}
       />
-      <p className="dividerText">Or</p>
-      <div>
-        <button className="openBtn">
-          Open <UploadOutlined />
-        </button>
-      </div>
       <div className="setDataContainer">
         {setData && (
           <div className="setDataThumbnail">
-            <Tooltip color={"#a0a0a0"} title="Add to project">
+            <Popover content={addProjectContent} title="Add to Project">
               <button
                 className="addSetBtn"
                 onClick={onAddSet}
               >
                 <PlusOutlined className="addBtnIcon"/>
               </button>
-            </Tooltip>
+            </Popover>
             <Image
               src={setData.setImgUrl}
               alt={setData.name}
@@ -166,27 +186,38 @@ export default function Home(): React.ReactElement {
           <div className="projectList">
             {setList.map((set, index) => (
               <div key={index} className="projectItem">
-                  <Link to="/set_page">
-                    <Image
-                      src={set.setImgUrl}
-                      alt={set.name}
-                      preview={false}
-                      style={{ objectFit: 'cover', maxHeight: '120px' }}
-                    />
-                  </Link>
+                  <Popover content={editProjectContent} title="Edit Project">
+                    <Link to="/set_page">
+                      <EditOutlined
+                        className="optionBtn editBtn"
+                      />
+                    </Link>
+                  </Popover>
                   <div className="projectMeta">
-                    <h2>{set.name}</h2>
+                    <div className="projectThumbnail">
+                      <Image
+                        src={set.setImgUrl}
+                        alt={set.name}
+                        preview={false}
+                        style={{ objectFit: 'cover', maxHeight: '120px' }}
+                      />
+                    </div>
+                    <div className="projectMeta">
+                      <h2>{set.name}</h2>
+                    </div>
                   </div>
-                  <CloseOutlined
-                    className="removeSetBtn"
-                    onClick={() => {
-                      setSetList((prevSetList) => {
-                        const newSetList = prevSetList.filter((_, i) => i !== index);
-                        localStorage.setItem('setList', JSON.stringify(newSetList));
-                        return newSetList;
-                      });
-                    }}
-                  />
+                  <Popover content={deleteProjectContent} title="Delete Project">
+                    <DeleteOutlined
+                      className="optionBtn deleteBtn"
+                      onClick={() => {
+                        setSetList((prevSetList) => {
+                          const newSetList = prevSetList.filter((_, i) => i !== index);
+                          localStorage.setItem('setList', JSON.stringify(newSetList));
+                          return newSetList;
+                        });
+                      }}
+                    />
+                  </Popover>
                 </div>
             ))}
           </div>
