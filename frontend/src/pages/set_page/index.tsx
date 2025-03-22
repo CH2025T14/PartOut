@@ -1,5 +1,5 @@
-import { Tabs } from 'antd';
-import { LinkOutlined } from '@ant-design/icons';
+import { Popover, Tabs, Spin } from 'antd';
+import { ShareAltOutlined } from '@ant-design/icons';
 import { useState, useEffect, use } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
@@ -23,7 +23,6 @@ export default function SetPage() {
 
   const [urlData, setUrlData] = useState<{url: string, partsCount: number[]} | null>(null);
 
-  
   const { setNumber } = useParams<{ setNumber: string }>();
   const { partCountData } = useParams<{ partCountData: string | undefined}>();
 
@@ -165,18 +164,45 @@ export default function SetPage() {
   return (
     <div className='set-page-container'>
       {!setData ? (
-        <p>Retrieving set data...</p>
+        <div className='set-page-loading'>
+          <p>Retrieving set data...</p>
+          <Spin size="large" />
+        </div>
       ) : (
         <>
           <div className='set-page-set-info'>
-            <h1>{setData?.name}</h1>
-            <img src={setData?.setImgUrl} alt="set" />
-            <p>Number of parts: {setData?.numParts}</p>
-            <p>Number of completed parts: {numCompletedParts}</p>
-            <p>Percentage of completion: {Math.round((numCompletedParts / setData?.numParts) * 100)}%</p>
-            <button onClick={() => {
-              console.log(generateURL(urlData));
-            }}>Generate URL<LinkOutlined /></button>
+            {/* TODO: replace with the set url */}
+            <a href='#' target="_blank" rel="noopener noreferrer">
+              <img src={setData?.setImgUrl} alt="set" />
+            </a>
+            <p>{setData?.name}</p>
+            <div className='set-page-percentage-details'>
+              <p>{numCompletedParts} out of {setData?.numParts} parts</p>
+              <div style={{ width: '90%', backgroundColor: '#efefef', borderRadius: '4px', height: '1rem' }}>
+                <div
+                  style={{
+                    width: `${(setData?.numParts > 0 ? (numCompletedParts / setData?.numParts) * 100 : 0)}%`,
+                    backgroundColor: '#52c597',
+                    height: '100%',
+                    borderRadius: '4px',
+                    transition: 'width 0.3s ease-in-out'
+                  }}
+                  role="progressbar"
+                  aria-valuenow={numCompletedParts}
+                  aria-valuemin={0}
+                  aria-valuemax={setData?.numParts}
+                ></div>
+              </div>
+              <p>{Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
+            </div>
+            <Popover content="Click to generate & copy the URL">
+              <ShareAltOutlined
+                className='set-page-share-icon'
+                onClick={() => {
+                  console.log(generateURL(urlData));
+                }}
+              />
+            </Popover>
           </div>
 
           <div className='set-page-tabs'>

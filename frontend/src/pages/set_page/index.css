@@ -2,6 +2,20 @@
   box-sizing: border-box;
 }
 
+.set-page-loading {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+
+  p {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 1rem;
+  }
+}
 
 .set-page-container {
   position: absolute;
@@ -12,14 +26,40 @@
 }
 
 .set-page-set-info {
-  margin-top: 20px;
-  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--lightgray2);
+}
+
+.set-page-set-info > p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.set-page-percentage-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .set-page-set-info img {
-  margin-top: 2rem;
-  width: 15rem;
-  height: 15rem;
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 0.6rem;
+  cursor: pointer;
+  border: 2px solid var(--lightgray2);
+  transition: all 0.3s;
+}
+.set-page-set-info img:hover {
+  border: 2px solid var(--blue);
 }
 
 .set-page-tabs {
@@ -28,10 +68,27 @@
 
 .set-page-parts-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  grid-auto-rows: minmax(8rem, auto);
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    grid-auto-rows: 1fr;
   gap: 2rem;
   width: 90%;
   margin: 0 auto;
   padding-bottom: 2rem;
+}
+
+.set-page-share-icon {
+  padding: 0.8rem;
+  background-color: var(--lightgray1);
+  border-radius: 50%;
+  border: 2px solid var(--lightgray2);
+  font-size: 1.2rem;
+  color: var(--black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.set-page-share-icon:hover {
+  border-color: var(--blue);
 }
