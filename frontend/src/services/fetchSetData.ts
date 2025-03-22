@@ -28,6 +28,7 @@ export async function getSetData(setNum: number): Promise<Set | undefined> {
       year: apiData.year,
       numParts: apiData.num_parts,
       setImgUrl: apiData.set_img_url,
+      partUrl: "",
     };
     return setData;
   } catch (error) {
