@@ -10,7 +10,7 @@ export async function getParts(setNum: number) {
     part_img_url: string;
   }
 
-  const url = "https://rebrickable.com/api/v3/lego/sets/" + setNum + "-1/parts/";
+  const url = "https://rebrickable.com/api/v3/lego/sets/" + setNum + "-1/parts/?ordering=results";
   const apiKey = import.meta.env.VITE_REBRICKABLE_API_KEY;
 
   try {

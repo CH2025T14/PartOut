@@ -1,12 +1,22 @@
 import { Tabs } from 'antd';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.css';
+import PartBox from '../partBox/index';
+import { getParts } from '../../services/fetchPartData';
 
+interface Part {
+  partName: string;
+  partId: string;
+  targetQty: number;
+  currQty: number;
+  imgUrl: string;
+}
 
-
+const set_ID = 6666;
 
 export default function SetPage() {
   const [key, setKey] = useState('1');
+  const [partData, setPartData] = useState<Part[]>([]);
 
   const onChange = (newKey: string) => {
     console.log(newKey);
@@ -17,32 +27,27 @@ export default function SetPage() {
     {
       key: '1',
       label: 'parts list',
-      children: 'Content of Tab Pane 1',
+
     },
     {
       key: '2',
       label: 'completed parts',
-      children: 'Content of Tab Pane 2',
     },
   ];
 
-  const hard_coded_parts = 
-    [
-      {
-        partId: '3035',
-        targetQty: 1,
-        currQty: 0,
-        imgUrl: 'https://cdn.rebrickable.com/media/parts/elements/303526.jpg',
-        partName: 'Plate 1x1'
-      },
-      {
-        partId: '92842',
-        targetQty: 1,
-        currQty: 0,
-        imgUrl: 'https://cdn.rebrickable.com/media/parts/elements/4599984.jpg',
-        partName: 'Plate 1x2'
-      },
-    ];
+
+
+  useEffect(() => {
+    const fetchPartData = async () => {
+      console.log('fetching part data');
+      const partData = await getParts(set_ID);
+      setPartData(partData);
+      console.log(partData.length);
+    };
+    fetchPartData();
+  }, []);
+
+
 
   return (
     <div className='set-page-container'>
@@ -51,16 +56,18 @@ export default function SetPage() {
       </div>
 
 
+      
+        {key === '1' && <div className='set-page-parts-list'>
+          {partData.map((part: Part) => (
+            <PartBox key={part.partId} part={part} />
+          ))}
+        </div>}
+      
 
-      {key === '1' && <div className='set-page-parts-list'>
-        {hard_coded_parts.map((part) => (
-          <div key={part.partId}>{part.partName}</div>
-        ))}
-      </div>}
-
+      
       {key === '2' && <div className='set-page-completed-parts-list'>
-        {hard_coded_parts.map((part) => (
-          <div key={part.partId}>{part.partName}</div>
+        {partData.map((part: Part) => (
+          <PartBox key={part.partId} part={part} />
         ))}
       </div>}
 
