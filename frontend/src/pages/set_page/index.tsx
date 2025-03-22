@@ -37,11 +37,11 @@ export default function SetPage() {
 const items = [
   {
     key: '1',
-      label: 'parts list',
+      label: 'Parts List',
   },
   {
     key: '2',
-      label: 'completed parts',
+      label: 'Completed Parts',
     },
   ];
 
