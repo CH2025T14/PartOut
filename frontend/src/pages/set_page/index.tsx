@@ -226,8 +226,8 @@ export default function SetPage() {
             </a>
             <p className='setTitle'>{setData?.name}</p>
             <div className='setMetadata'>
-              <Tag icon={<UnorderedListOutlined />}>{setData?.numParts} parts</Tag>
-              <Tag icon={<CalendarOutlined />}>{setData?.year}</Tag>
+              <Tag bordered={false} icon={<UnorderedListOutlined />}>{setData?.numParts} parts</Tag>
+              <Tag bordered={false} icon={<CalendarOutlined />}>{setData?.year}</Tag>
             </div>
             <div className='set-page-percentage-details'>
               <p>{numCompletedParts} out of {setData?.numParts} parts / {Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
