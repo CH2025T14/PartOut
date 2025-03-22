@@ -130,7 +130,7 @@ export default function SetPage() {
   return (
     <div className='set-page-container'>
       {!setData ? (
-        <p>Error retrieving set data</p>
+        <p>Retrieving set data...</p>
       ) : (
         <>
           <div className='set-page-set-info'>
