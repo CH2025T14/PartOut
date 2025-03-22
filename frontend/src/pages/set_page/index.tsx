@@ -54,11 +54,11 @@ const items = [
   }
 
   function generateURL(urlData: {url: string | null | undefined, partsCount: number[]}) {
-    return generateBase64URL({url: urlData.url || '', partsCount: urlData.partsCount});
+    return generateBase36URL({url: urlData.url || '', partsCount: urlData.partsCount});
   }
 
   function applyUrlDataObject(partCountData: string){
-    const partsCount_data = decodeBase64URL(partCountData);
+    const partsCount_data = decodeBase36URL(partCountData);
 
 
     setUrlData(prev => {
@@ -73,23 +73,7 @@ const items = [
 
 
 
-function generateBase64URL(urlData: { url: string, partsCount: number[] }): string {
-  const partsString = urlData.partsCount.join('-');
 
-  return btoa(partsString);
-}
-
-
-function decodeBase64URL(base64: string): number[] {
-  try {
-    const decodedString = atob(base64);
-
-    return decodedString.split('-').map(Number);
-  } catch (error) {
-    console.error('Base64 decoding error', error);
-    return [];
-  }
-}
 
 
   function applyURLdata2CurrentQty(){
@@ -264,6 +248,41 @@ function decodeBase64URL(base64: string): number[] {
       });
     }
   };
+
+  function generateBase36URL(urlData: { url: string, partsCount: number[] }): string {
+    // get the length of the number
+    const lengths = urlData.partsCount.map(n => n.toString().length.toString(36));
+    
+    // change the number to base36
+    const numbers = urlData.partsCount.map(n => n.toString(36));
+    
+    // combine the length and the number
+    return lengths.join('') + 'z' + numbers.join('');
+  }
+
+  function decodeBase36URL(encoded: string): number[] {
+    try {
+      const [lengthsStr, numbersStr] = encoded.split('z');
+      
+      // parse the length
+      const lengths = lengthsStr.split('').map(c => parseInt(c, 36));
+      
+      // extract the number
+      const result = [];
+      let pos = 0;
+      
+      for (const len of lengths) {
+        const numStr = numbersStr.substring(pos, pos + len);
+        result.push(parseInt(numStr, 36));
+        pos += len;
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Base36 decoding error', error);
+      return [];
+    }
+  }
 
   return (
     <div className='set-page-container'>
