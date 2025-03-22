@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -101,6 +101,10 @@ button:focus-visible {
   outline: none;
 }
 
+/* SearchBar Placeholder */
+:where(.css-dev-only-do-not-override-tjsggz).ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input {
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
 
 /* SearchBar Radius */
 .ant-input-search :where(.css-dev-only-do-not-override-tjsggz).ant-input-group .ant-input-affix-wrapper:not(:last-child) {
@@ -121,3 +125,7 @@ button:focus-visible {
   outline: none;
 }
 
+/* Empty Description */
+:where(.css-dev-only-do-not-override-tjsggz).ant-empty .ant-empty-description {
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
