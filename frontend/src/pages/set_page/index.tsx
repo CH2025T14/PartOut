@@ -138,56 +138,54 @@ export default function SetPage() {
 
   return (
     <div className='set-page-container'>
-      
+      {!setData ? (
+        <p>Error retrieving set data</p>
+      ) : (
+        <>
+          <div className='set-page-set-info'>
+            <h1>{setData?.name}</h1>
+            <img src={setData?.setImgUrl} alt="set" />
+            <p>Number of parts: {setData?.numParts}</p>
+            <p>Number of completed parts: {numCompletedParts}</p>
+            <p>Percentage of completion: {Math.round((numCompletedParts / setData?.numParts) * 100)}%</p>
+            <button onClick={() => {
+              console.log(generateURL(urlData));
+            }}>Generate URL</button>
+          </div>
 
-      <div className='set-page-set-info'>
-        <h1>{setData?.name}</h1>
-        <img src={setData?.setImgUrl} alt="set" />
-        <p>Number of parts: {setData?.numParts}</p>
-        <p>Number of completed parts: {numCompletedParts}</p>
-        <p>Percentage of completion: {Math.round((numCompletedParts / setData?.numParts) * 100)}%</p>
-        <button onClick={() => {
-          console.log(generateURL(urlData));
-        }}>Generate URL</button>
-      </div>
+          <div className='set-page-tabs'>
+            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+          </div>
 
+          {key === '1' && <div className='set-page-parts-list'>
+            {partData.map((part: Part) => (
+              part.currQty < part.targetQty && (
+                <PartBox 
+                  key={part.partId} 
+                  part={part} 
+                  currQty={part.currQty} 
+                  addCurrentPart={addCurrentPart} 
+                  removeCurrentPart={removeCurrentPart} 
+                />
+              )
+            ))}
+          </div>}
 
-      <div className='set-page-tabs'>
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
-      </div>
-
-        {key === '1' && <div className='set-page-parts-list'>
-          {partData.map((part: Part) => (
-            part.currQty < part.targetQty && (
-              <PartBox 
-                key={part.partId} 
-                part={part} 
-                currQty={part.currQty} 
-                addCurrentPart={addCurrentPart} 
-                removeCurrentPart={removeCurrentPart} 
-              />
-            )
-          ))}
-        </div>}
-
-
-
-      {key === '2' && <div className='set-page-parts-list'>
-        {partData.map((part: Part) => (
-          part.currQty === part.targetQty && (
-            <PartBox 
-              key={part.partId} 
-              part={part} 
-              currQty={part.currQty} 
-              addCurrentPart={addCurrentPart} 
-              removeCurrentPart={removeCurrentPart} 
-            />
-          )
-        ))}
-      </div>}
-
-
-
+          {key === '2' && <div className='set-page-parts-list'>
+            {partData.map((part: Part) => (
+              part.currQty === part.targetQty && (
+                <PartBox 
+                  key={part.partId} 
+                  part={part} 
+                  currQty={part.currQty} 
+                  addCurrentPart={addCurrentPart} 
+                  removeCurrentPart={removeCurrentPart} 
+                />
+              )
+            ))}
+          </div>}
+        </>
+      )}
     </div>
   );
 }
