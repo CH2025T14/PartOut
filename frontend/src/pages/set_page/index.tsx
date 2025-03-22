@@ -20,6 +20,11 @@ export default function SetPage() {
     setKey(newKey);
   };
 
+  const [urlData, setUrlData] = useState<{url: string, partsCount: number[]} | null>(null);
+
+  // TODO: change this 
+  const urlDataIsNotGiven = true;
+
   const items = [
     {
       key: '1',
@@ -32,28 +37,88 @@ export default function SetPage() {
     },
   ];
 
+  function generateUrlDataObject(numParts: number) {
+    let urlData = {
+      url: '',
+      partsCount: new Array(numParts).fill(0),
+    };
+    setUrlData(urlData);
+  }
+  
+  function generateURL(urlData: {url: string, partsCount: number[]}) {
+    let url = urlData.url;
+    for (let i = 0; i < urlData.partsCount.length; i++) {
+      url = url + urlData.partsCount[i] + '-';
+    }
+    url = url.slice(0, -1);
+    return url;
+  }
+
+
+
+
 
   function addCurrentPart(part: Part) {
     if (part.currQty < part.targetQty) {
-        setPartData(partData.map(p => 
-            p.partId === part.partId ? { ...p, currQty: p.currQty + 1 } : p
-        ));
-        setNumCompletedParts(numCompletedParts + 1);
+      const partId = part.partId;
+      const partIndex = part.partIndex;
+      
+      setPartData(prevPartData => {
+        return prevPartData.map(p => {
+          if (p.partId === partId && p.currQty < p.targetQty) {
+            const newCurrQty = p.currQty + 1;
+            
+            
+            if (urlData && urlData.partsCount) {
+              urlData.partsCount[partIndex] = newCurrQty;
+            }
+            
+            console.log(partIndex, "and", newCurrQty);
+            return { ...p, currQty: newCurrQty };
+          }
+          return p;
+        });
+      });
+      
+      setNumCompletedParts(prev => prev + 1);
     }
-}
+  }
 
-function removeCurrentPart(part: Part) {
+  function removeCurrentPart(part: Part) {
     if (part.currQty > 0) {
-        setPartData(partData.map(p => 
-            p.partId === part.partId ? { ...p, currQty: p.currQty - 1 } : p
-        ));
-        setNumCompletedParts(numCompletedParts - 1);
+      const partId = part.partId;
+      const partIndex = part.partIndex;
+      
+      setPartData(prevPartData => {
+        return prevPartData.map(p => {
+          if (p.partId === partId && p.currQty > 0) {
+            const newCurrQty = p.currQty - 1;
+            if (urlData && urlData.partsCount) {
+              urlData.partsCount[partIndex] = newCurrQty;
+            }
+            
+            console.log(partIndex, "and", newCurrQty);
+            return { ...p, currQty: newCurrQty };
+          }
+          return p;
+        });
+      });
+      
+      setNumCompletedParts(prev => prev - 1);
     }
-}
+  }
+
+
+
+
 
 
   useEffect(() => {
     const fetchPartData = async () => {
+
+
+
+      
       console.log('fetching part data');
       const partData = await getPartData(set_ID);
       setPartData(partData);
@@ -61,7 +126,9 @@ function removeCurrentPart(part: Part) {
       if (setData) {
         setSetData(setData);
       }
-
+      if (urlDataIsNotGiven){
+        generateUrlDataObject(setData?.numParts || 0);
+      }
 
     };
     fetchPartData();
@@ -79,6 +146,9 @@ function removeCurrentPart(part: Part) {
         <p>Number of parts: {setData?.numParts}</p>
         <p>Number of completed parts: {numCompletedParts}</p>
         <p>Percentage of completion: {Math.round((numCompletedParts / setData?.numParts) * 100)}%</p>
+        <button onClick={() => {
+          console.log(generateURL(urlData));
+        }}>Generate URL</button>
       </div>
 
 

@@ -35,7 +35,7 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
         }
     }
 
-
+    
 
     return (
         <div className='part-box'>
