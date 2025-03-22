@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { Part } from '../../types/types';
 import './index.css';
@@ -15,10 +15,15 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
   const [currentPart, setCurrentPart] = useState(part);
   const [currentQty, setCurrentQty] = useState(currQty);
 
+  useEffect(() => {
+    setCurrentQty(currQty);
+  }, [currQty]);
+
   function removeCurrentPartAndUpdate(part: Part) {
     removeCurrentPart(part);
     if (currentQty > 0) {
       setCurrentQty(currentQty - 1);
+      part.currQty = currentQty - 1;
     }
   }
 
@@ -26,6 +31,7 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
     addCurrentPart(part);
     if (currentQty < part.targetQty) {
       setCurrentQty(currentQty + 1);
+      part.currQty = currentQty + 1;
     }
   }
 
