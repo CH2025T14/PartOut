@@ -1,18 +1,24 @@
+<<<<<<< Updated upstream
 import { Popover, Tabs, Spin, Tag, FloatButton } from 'antd';
 import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
+=======
+import { Popover, Tabs, Spin, Select } from 'antd';
+import { ShareAltOutlined } from '@ant-design/icons';
+>>>>>>> Stashed changes
 import { useState, useEffect, use } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
 import PartBox from '../partBox/index';
 import { getPartData } from '../../services/fetchPartData';
 import { getSetData } from '../../services/fetchSetData';
-import { Part, Set } from '../../types/types';
+import type { Part, Set } from '../../types/types';
 
 
 export default function SetPage() {
   const [key, setKey] = useState('1');
   const [partData, setPartData] = useState<Part[]>([]);
   const [setData, setSetData] = useState<Set | null>(null);
+  const [filterColor, setFilterColor] = useState<string | null>(null);
 
   const [numCompletedParts, setNumCompletedParts] = useState<number>(0);
 
@@ -144,10 +150,25 @@ export default function SetPage() {
     }
   }
 
+<<<<<<< Updated upstream
   function update_NumCompletedParts(num: number){
     setNumCompletedParts(prev => prev + num);
   }
 
+=======
+  const handleFilterChange = (value: string | null) => {
+    setFilterColor(value);
+  };
+
+  const filteredPartData = partData.filter(part => {
+    if (!filterColor) return true;
+    return part.colorName === filterColor;
+  });
+
+  const colorMap = new Map(
+    partData.map(part => [part.colorName, part.colorRgb])
+  );
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const fetchPartData = async () => {
@@ -238,8 +259,26 @@ export default function SetPage() {
             <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
           </div>
 
+          <div className='set-page-filter'>
+            <Select
+              allowClear
+              placeholder="Filter by color"
+              onChange={handleFilterChange}
+            >
+              {Array.from(colorMap.entries()).map(([name, rgb]) => {
+                return (
+                  <Select.Option key={name} value={name}>
+                    <span>
+                      {name}
+                    </span>
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </div>
+
           {key === '1' && <div className='set-page-parts-list'>
-            {partData.map((part: Part) => (
+            {filteredPartData.map((part: Part) => (
               part.currQty < part.targetQty && (
                 <PartBox
                   key={part.partId}
@@ -253,7 +292,7 @@ export default function SetPage() {
           </div>}
 
           {key === '2' && <div className='set-page-parts-list'>
-            {partData.map((part: Part) => (
+            {filteredPartData.map((part: Part) => (
               part.currQty === part.targetQty && (
                 <PartBox
                   key={part.partId}
