@@ -303,6 +303,9 @@ function decodeBase64URL(base64: string): number[] {
             </div>
             <div className='set-page-percentage-details'>
               <p>{numCompletedParts} out of {totalPartCount} parts / {Math.round((numCompletedParts / totalPartCount) * 100)}% completed</p>
+              <i>Note: minifig parts not included</i>
+            </div>
+            <div>
             </div>
           </div>
 
