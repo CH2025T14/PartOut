@@ -67,6 +67,7 @@ export default function Home(): React.ReactElement {
       year: setData.year,
       numParts: setData.numParts,
       setImgUrl: setData.setImgUrl,
+      partUrl: "0",
     };
 
     // Check if the set already exists in the set list
@@ -85,12 +86,7 @@ export default function Home(): React.ReactElement {
     setSetList((prevSetList) => {
       const newSetList = [...prevSetList, newSet];
 
-      // Update the set list in local storage
-      const modifiedSetList = newSetList.map(set => ({
-        ...set,
-        partUrl: "0"
-      }));
-      localStorage.setItem('setList', JSON.stringify(modifiedSetList));
+      localStorage.setItem('setList', JSON.stringify(newSetList));
       return newSetList;
     });
 
