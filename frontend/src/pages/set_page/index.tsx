@@ -1,18 +1,19 @@
-import { Popover, Tabs, Spin } from 'antd';
-import { ShareAltOutlined } from '@ant-design/icons';
+import { Popover, Tabs, Spin, Tag, FloatButton, Select } from 'antd';
+import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useState, useEffect, use } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
 import PartBox from '../partBox/index';
 import { getPartData } from '../../services/fetchPartData';
 import { getSetData } from '../../services/fetchSetData';
-import { Part, Set } from '../../types/types';
+import type { Part, Set } from '../../types/types';
 
 
 export default function SetPage() {
   const [key, setKey] = useState('1');
   const [partData, setPartData] = useState<Part[]>([]);
   const [setData, setSetData] = useState<Set | null>(null);
+  const [filterColor, setFilterColor] = useState<string | null>(null);
 
   const [numCompletedParts, setNumCompletedParts] = useState<number>(0);
 
@@ -122,7 +123,7 @@ export default function SetPage() {
                 };
               });
             }
-           
+
           }
           return p;
         });
@@ -170,6 +171,18 @@ export default function SetPage() {
     setNumCompletedParts(prev => prev + num);
   }
 
+  const handleFilterChange = (value: string | null) => {
+    setFilterColor(value);
+  };
+
+  const filteredPartData = partData.filter(part => {
+    if (!filterColor) return true;
+    return part.colorName === filterColor;
+  });
+
+  const colorMap = new Map(
+    partData.map(part => [part.colorName, part.colorRgb])
+  );
 
   useEffect(() => {
     const fetchPartData = async () => {
@@ -219,29 +232,8 @@ export default function SetPage() {
       ) : (
         <>
           <div className='set-page-set-info'>
-            {/* TODO: replace with the set url */}
-            <a href='#' target="_blank" rel="noopener noreferrer">
-              <img src={setData?.setImgUrl} alt="set" />
-            </a>
-            <p>{setData?.name}</p>
-            <div className='set-page-percentage-details'>
-              <p>{numCompletedParts} out of {setData?.numParts} parts</p>
-              <div style={{ width: '90%', backgroundColor: '#efefef', borderRadius: '4px', height: '1rem' }}>
-                <div
-                  style={{
-                    width: `${(setData?.numParts > 0 ? (numCompletedParts / setData?.numParts) * 100 : 0)}%`,
-                    backgroundColor: '#52c597',
-                    height: '100%',
-                    borderRadius: '4px',
-                    transition: 'width 0.3s ease-in-out'
-                  }}
-                  role="progressbar"
-                  aria-valuenow={numCompletedParts}
-                  aria-valuemin={0}
-                  aria-valuemax={setData?.numParts}
-                ></div>
-              </div>
-              <p>{Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
+            <div className="headerLogoContainer">
+              <ProductFilled className="headerLogo" /><h1>PartOut</h1>
             </div>
             <Popover content="Click to generate & copy the URL">
               <ShareAltOutlined
@@ -252,13 +244,59 @@ export default function SetPage() {
               />
             </Popover>
           </div>
+          <div style={{ width: '100%', backgroundColor: '#efefef', height: '1rem' }}>
+            <div
+              style={{
+                width: `${(setData?.numParts > 0 ? (numCompletedParts / setData?.numParts) * 100 : 0)}%`,
+                backgroundColor: '#52c597',
+                height: '100%',
+                transition: 'width 0.3s ease-in-out'
+              }}
+              role="progressbar"
+              aria-valuenow={numCompletedParts}
+              aria-valuemin={0}
+              aria-valuemax={setData?.numParts}
+            ></div>
+          </div>
+
+          <div className='set-container'>
+            <a href='#' target="_blank" rel="noopener noreferrer">
+              <img src={setData?.setImgUrl} alt="set" />
+            </a>
+            <p className='setTitle'>{setData?.name}</p>
+            <div className='setMetadata'>
+              <Tag bordered={false} icon={<UnorderedListOutlined />}>{setData?.numParts} parts</Tag>
+              <Tag bordered={false} icon={<CalendarOutlined />}>{setData?.year}</Tag>
+            </div>
+            <div className='set-page-percentage-details'>
+              <p>{numCompletedParts} out of {setData?.numParts} parts / {Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
+            </div>
+          </div>
 
           <div className='set-page-tabs'>
             <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
           </div>
 
+          <div className='set-page-filter'>
+            <Select
+              allowClear
+              placeholder="Filter by color"
+              onChange={handleFilterChange}
+            >
+              {Array.from(colorMap.entries()).map(([name, rgb]) => {
+                return (
+                  <Select.Option key={name} value={name}>
+                    <span>
+                      {name}
+                    </span>
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </div>
+
           {key === '1' && <div className='set-page-parts-list'>
-            {partData.map((part: Part) => (
+            {filteredPartData.map((part: Part) => (
               part.currQty < part.targetQty && (
                 <PartBox
                   key={part.partId}
@@ -272,7 +310,7 @@ export default function SetPage() {
           </div>}
 
           {key === '2' && <div className='set-page-parts-list'>
-            {partData.map((part: Part) => (
+            {filteredPartData.map((part: Part) => (
               part.currQty === part.targetQty && (
                 <PartBox
                   key={part.partId}
@@ -286,6 +324,7 @@ export default function SetPage() {
           </div>}
         </>
       )}
+      <FloatButton.BackTop />
     </div>
   );
 }
