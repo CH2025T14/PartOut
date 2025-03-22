@@ -27,6 +27,8 @@ export async function getPartData(setNum: number, page: number = 1): Promise<Par
         partIndex: index,
         partName: item.part.name,
         partId: item.id,
+        colorName: item.color.name,
+        colorRgb: item.color.rgb,
         targetQty: item.quantity,
         currQty: 0,
         imgUrl: item.part.part_img_url,
