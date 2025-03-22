@@ -1,4 +1,4 @@
-import { Popover, Tabs, Spin, Tag } from 'antd';
+import { Popover, Tabs, Spin, Tag, FloatButton } from 'antd';
 import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useState, useEffect, use } from 'react';
 import { useParams } from 'react-router-dom';
@@ -267,6 +267,7 @@ export default function SetPage() {
           </div>}
         </>
       )}
+      <FloatButton.BackTop />
     </div>
   );
 }
