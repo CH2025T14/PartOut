@@ -1,10 +1,5 @@
-<<<<<<< Updated upstream
-import { Popover, Tabs, Spin, Tag, FloatButton } from 'antd';
+import { Popover, Tabs, Spin, Tag, FloatButton, Select } from 'antd';
 import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
-=======
-import { Popover, Tabs, Spin, Select } from 'antd';
-import { ShareAltOutlined } from '@ant-design/icons';
->>>>>>> Stashed changes
 import { useState, useEffect, use } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
@@ -150,12 +145,10 @@ export default function SetPage() {
     }
   }
 
-<<<<<<< Updated upstream
   function update_NumCompletedParts(num: number){
     setNumCompletedParts(prev => prev + num);
   }
 
-=======
   const handleFilterChange = (value: string | null) => {
     setFilterColor(value);
   };
@@ -168,7 +161,6 @@ export default function SetPage() {
   const colorMap = new Map(
     partData.map(part => [part.colorName, part.colorRgb])
   );
->>>>>>> Stashed changes
 
   useEffect(() => {
     const fetchPartData = async () => {
