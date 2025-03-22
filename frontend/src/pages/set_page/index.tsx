@@ -1,4 +1,4 @@
-import { Popover, Tabs } from 'antd';
+import { Popover, Tabs, Spin } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { useState, useEffect, use } from 'react';
 import { useParams } from 'react-router-dom';
@@ -130,7 +130,10 @@ export default function SetPage() {
   return (
     <div className='set-page-container'>
       {!setData ? (
-        <p>Retrieving set data...</p>
+        <div className='set-page-loading'>
+          <p>Retrieving set data...</p>
+          <Spin size="large" />
+        </div>
       ) : (
         <>
           <div className='set-page-set-info'>
