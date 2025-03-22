@@ -248,19 +248,20 @@ export default function SetPage() {
   };
 
   function generateBase36URL(urlData: { url: string, partsCount: number[] }): string {
-    // get the length of the number
+    console.log(urlData.partsCount);
+    
     const lengths = urlData.partsCount.map(n => n.toString().length.toString(36));
     
     // change the number to base36
     const numbers = urlData.partsCount.map(n => n.toString(36));
     
     // combine the length and the number
-    return lengths.join('') + 'z' + numbers.join('');
+    return lengths.join('') + '-' + numbers.join('');
   }
 
   function decodeBase36URL(encoded: string): number[] {
     try {
-      const [lengthsStr, numbersStr] = encoded.split('z');
+      const [lengthsStr, numbersStr] = encoded.split('-');
       
       // parse the length
       const lengths = lengthsStr.split('').map(c => parseInt(c, 36));
