@@ -28,6 +28,8 @@ export default function SetPage() {
   const [partData, setPartData] = useState<Part[]>([]);
   const [setData, setSetData] = useState<Set | null>(null);
 
+  const [numCompletedParts, setNumCompletedParts] = useState<number>(0);
+
   const onChange = (newKey: string) => {
     console.log(newKey);
     setKey(newKey);
@@ -51,6 +53,7 @@ export default function SetPage() {
         setPartData(partData.map(p => 
             p.partId === part.partId ? { ...p, currQty: p.currQty + 1 } : p
         ));
+        setNumCompletedParts(numCompletedParts + 1);
     }
 }
 
@@ -59,6 +62,7 @@ function removeCurrentPart(part: Part) {
         setPartData(partData.map(p => 
             p.partId === part.partId ? { ...p, currQty: p.currQty - 1 } : p
         ));
+        setNumCompletedParts(numCompletedParts - 1);
     }
 }
 
@@ -87,6 +91,9 @@ function removeCurrentPart(part: Part) {
       <div className='set-page-set-info'>
         <h1>{setData?.name}</h1>
         <img src={setData?.setImgUrl} alt="set" />
+        <p>Number of parts: {setData?.numParts}</p>
+        <p>Number of completed parts: {numCompletedParts}</p>
+        <p>Percentage of completion: {Math.round((numCompletedParts / setData?.numParts) * 100)}%</p>
       </div>
 
 
