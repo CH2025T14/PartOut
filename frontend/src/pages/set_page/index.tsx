@@ -78,7 +78,7 @@ export default function SetPage() {
   }
 
 
-
+  // TODO: try to understand how it works
   function addCurrentPart(part: Part) {
     if (part.currQty < part.targetQty) {
       const partId = part.partId;
@@ -91,9 +91,9 @@ export default function SetPage() {
 
             if (urlData && urlData.partsCount) {
               urlData.partsCount[partIndex] = newCurrQty;
+              return { ...p, currQty: newCurrQty };
             }
-
-            return { ...p, currQty: newCurrQty };
+           
           }
           return p;
         });
@@ -102,6 +102,9 @@ export default function SetPage() {
       setNumCompletedParts(prev => prev + 1);
     }
   }
+
+
+  // TODO: try to understand how it works
 
   function removeCurrentPart(part: Part) {
     if (part.currQty > 0) {
@@ -153,6 +156,7 @@ export default function SetPage() {
       console.log('urlData changed, applying to currentQty');
       console.log(urlData.partsCount);
       applyURLdata2CurrentQty();
+      
     }
   }, [urlData]);
 
