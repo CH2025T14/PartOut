@@ -1,4 +1,4 @@
-import { Input, Image, Empty } from 'antd';
+import { Input, Image, Empty, message, Tooltip } from 'antd';
 import { UploadOutlined, PlusOutlined, BorderOuterOutlined, CalendarOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Link, Outlet } from "react-router";
 import React from 'react';
@@ -10,15 +10,32 @@ const { Search } = Input;
 
 export default function Home(): React.ReactElement {
   const [setData, setSetData] = React.useState<Set | null>(null);
+  const [setList, setSetList] = React.useState<Set[]>([]);
+  const [messageApi, contextHolder] = message.useMessage();
 
 
   const onSearch = async (value: string) => {
     if (!value || isNaN(parseInt(value))) {
+      // Show a toast message
+      messageApi.open({
+        type: 'error',
+        content: 'Invalid set number',
+        duration: 2,
+      });
+
       return;
     }
     setSetData(null);
     const setData = await getSetData(parseInt(value));
+
+    // Check if setData is null
     if (!setData) {
+      // Show a toast message
+      messageApi.open({
+        type: 'error',
+        content: 'Set not found',
+        duration: 2,
+      });
       return;
     }
     setSetData(setData);
@@ -27,8 +44,54 @@ export default function Home(): React.ReactElement {
     // console.log(partData);
   }
 
+  // Add the set to the set list
+  const onAddSet = async () => {
+    // Check if setData is null
+    if (!setData) {
+      // Show a toast message
+      messageApi.open({
+        type: 'error',
+        content: 'No set data to add',
+        duration: 2,
+      });
+      return;
+    }
+
+
+    // Create a new set object
+    const newSet = {
+      name: setData.name,
+      year: setData.year,
+      numParts: setData.numParts,
+      setImgUrl: setData.setImgUrl,
+    };
+
+    // Check if the set already exists in the set list
+    const existingSet = setList.find(set => set.name === newSet.name);
+    if (existingSet) {
+      // Show a toast message
+      messageApi.open({
+        type: 'warning',
+        content: 'Set already exists in the list',
+        duration: 2,
+      });
+      return;
+    }
+
+    // Update the set list in state
+    setSetList((prevSetList) => {
+      const newSetList = [...prevSetList, newSet];
+      localStorage.setItem('setList', JSON.stringify(newSetList));
+      return newSetList;
+    });
+
+    // Clear the set data after adding
+    setSetData(null);
+  }
+
   return (
     <div className="homeContainer">
+      {contextHolder}
       <div className="logoContainer">
         <BorderOuterOutlined className="mainLogo" /><h1>PartOut</h1>
       </div>
@@ -51,14 +114,19 @@ export default function Home(): React.ReactElement {
       <div className="setDataContainer">
         {setData && (
           <div className="setDataThumbnail">
-            <Link to="/set_page">
-              <button className="addSetBtn"><PlusOutlined className="addBtnIcon"/></button>
-            </Link>
+            <Tooltip color={"#a0a0a0"} title="Add to project">
+              <button
+                className="addSetBtn"
+                onClick={onAddSet}
+              >
+                <PlusOutlined className="addBtnIcon"/>
+              </button>
+            </Tooltip>
             <Image
               src={setData.setImgUrl}
               alt={setData.name}
               preview={false}
-              style={{ objectFit: 'contain', maxHeight: '120px' }}
+              style={{ objectFit: 'cover', maxHeight: '120px' }}
             />
             <div className="setDataMeta">
               <h2>{setData.name}</h2>
@@ -72,7 +140,27 @@ export default function Home(): React.ReactElement {
       </div>
       <hr />
       <div className="projectContainer">
-        <Empty />
+        { setList.length > 0 ? (
+          <div className="projectList">
+            {setList.map((set, index) => (
+              <Link to="/set_page">
+                <div key={index} className="projectItem">
+                  <Image
+                    src={set.setImgUrl}
+                    alt={set.name}
+                    preview={false}
+                    style={{ objectFit: 'cover', maxHeight: '120px' }}
+                  />
+                  <div className="projectMeta">
+                    <h2>{set.name}</h2>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <Empty description="No sets added yet" />
+        )}
       </div>
       <Outlet />
     </div>

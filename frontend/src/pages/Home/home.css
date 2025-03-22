@@ -137,3 +137,14 @@ hr {
   margin: 0 auto;
   border: 1px solid var(--lightgray1);
 }
+
+.projectItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 1rem 0;
+  border: 2px solid var(--lightgray2);
+  padding: 1rem;
+}
