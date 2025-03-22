@@ -1,7 +1,9 @@
 export async function getPartData(setNum: number, page: number = 1) {
   interface ApiResponseItem {
+    id: number;
     part: Part;
     quantity: number;
+    is_spare: boolean;
   }
 
   interface Part {
@@ -28,10 +30,12 @@ export async function getPartData(setNum: number, page: number = 1) {
 
     const rawData = await response.json();
 
-    const partData = rawData.results.map((item: ApiResponseItem) => {
+    const partData = rawData.results
+    .filter((item: ApiResponseItem) => !item.is_spare)
+    .map((item: ApiResponseItem) => {
       return {
         partName: item.part.name,
-        partId: item.part.part_num,
+        partId: item.id,
         targetQty: item.quantity,
         currQty: 0,
         imgUrl: item.part.part_img_url,
