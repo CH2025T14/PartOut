@@ -1,11 +1,11 @@
 .part-box {
   padding: 1rem;
-  border: 2px solid var(--lightgray2);
+  border: 1px solid var(--lightgray2);
 }
 
 .part-box img {
-  max-width: 6rem;
-  max-height: 6rem;
+  max-width: 5rem;
+  max-height: 5rem;
 }
 
 .part-box-button-container {
@@ -15,12 +15,16 @@
   margin-top: 0.8rem;
 
   button {
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.8rem;
     border-radius: 1.6rem;
     border: none;
     cursor: pointer;
     padding: 0.8rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all 0.3s;
   }
 }
