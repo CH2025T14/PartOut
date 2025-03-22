@@ -1,33 +1,37 @@
+* {
+  box-sizing: border-box;
+}
+
 
 .set-page-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .set-page-set-info {
-    margin-top: 20px;
-    margin-left: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .set-page-set-info img {
-    margin-top: 2rem;
-    width: 15rem;
-    height: 15rem;
+  margin-top: 2rem;
+  width: 15rem;
+  height: 15rem;
 }
 
 .set-page-tabs {
-
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .set-page-parts-list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5rem;
-
-    margin-left: 10rem;
-    margin-right: 10rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  grid-auto-rows: minmax(8rem, auto);
+  gap: 2rem;
+  width: 90%;
+  margin: 0 auto;
+  padding-bottom: 2rem;
 }

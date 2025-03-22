@@ -22,14 +22,13 @@ export default function SetPage() {
 
   const [urlData, setUrlData] = useState<{url: string, partsCount: number[]} | null>(null);
 
-  // TODO: change this 
+  // TODO: change this
   const urlDataIsNotGiven = true;
 
   const items = [
     {
       key: '1',
       label: 'parts list',
-
     },
     {
       key: '2',
@@ -44,7 +43,7 @@ export default function SetPage() {
     };
     setUrlData(urlData);
   }
-  
+
   function generateURL(urlData: {url: string, partsCount: number[]}) {
     let url = urlData.url;
     for (let i = 0; i < urlData.partsCount.length; i++) {
@@ -55,31 +54,27 @@ export default function SetPage() {
   }
 
 
-
-
-
   function addCurrentPart(part: Part) {
     if (part.currQty < part.targetQty) {
       const partId = part.partId;
       const partIndex = part.partIndex;
-      
+
       setPartData(prevPartData => {
         return prevPartData.map(p => {
           if (p.partId === partId && p.currQty < p.targetQty) {
             const newCurrQty = p.currQty + 1;
-            
-            
+
             if (urlData && urlData.partsCount) {
               urlData.partsCount[partIndex] = newCurrQty;
             }
-            
+
             console.log(partIndex, "and", newCurrQty);
             return { ...p, currQty: newCurrQty };
           }
           return p;
         });
       });
-      
+
       setNumCompletedParts(prev => prev + 1);
     }
   }
@@ -88,7 +83,7 @@ export default function SetPage() {
     if (part.currQty > 0) {
       const partId = part.partId;
       const partIndex = part.partIndex;
-      
+
       setPartData(prevPartData => {
         return prevPartData.map(p => {
           if (p.partId === partId && p.currQty > 0) {
@@ -96,29 +91,21 @@ export default function SetPage() {
             if (urlData && urlData.partsCount) {
               urlData.partsCount[partIndex] = newCurrQty;
             }
-            
+
             console.log(partIndex, "and", newCurrQty);
             return { ...p, currQty: newCurrQty };
           }
           return p;
         });
       });
-      
+
       setNumCompletedParts(prev => prev - 1);
     }
   }
 
 
-
-
-
-
   useEffect(() => {
     const fetchPartData = async () => {
-
-
-
-      
       console.log('fetching part data');
       const partData = await getPartData(set_ID);
       setPartData(partData);
@@ -160,12 +147,12 @@ export default function SetPage() {
           {key === '1' && <div className='set-page-parts-list'>
             {partData.map((part: Part) => (
               part.currQty < part.targetQty && (
-                <PartBox 
-                  key={part.partId} 
-                  part={part} 
-                  currQty={part.currQty} 
-                  addCurrentPart={addCurrentPart} 
-                  removeCurrentPart={removeCurrentPart} 
+                <PartBox
+                  key={part.partId}
+                  part={part}
+                  currQty={part.currQty}
+                  addCurrentPart={addCurrentPart}
+                  removeCurrentPart={removeCurrentPart}
                 />
               )
             ))}
@@ -174,12 +161,12 @@ export default function SetPage() {
           {key === '2' && <div className='set-page-parts-list'>
             {partData.map((part: Part) => (
               part.currQty === part.targetQty && (
-                <PartBox 
-                  key={part.partId} 
-                  part={part} 
-                  currQty={part.currQty} 
-                  addCurrentPart={addCurrentPart} 
-                  removeCurrentPart={removeCurrentPart} 
+                <PartBox
+                  key={part.partId}
+                  part={part}
+                  currQty={part.currQty}
+                  addCurrentPart={addCurrentPart}
+                  removeCurrentPart={removeCurrentPart}
                 />
               )
             ))}

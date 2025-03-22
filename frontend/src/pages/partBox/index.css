@@ -1,18 +1,36 @@
 .part-box {
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+  padding: 1rem;
+  border: 2px solid var(--lightgray2);
 }
 
 .part-box img {
-    margin-top: 1rem;
-    max-width: 10rem;
-    max-height: 10rem;   
+  max-width: 6rem;
+  max-height: 6rem;
 }
 
-.part-box-buttons {
-    display: flex;
-    justify-content: center;
-    
+.part-box-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  button {
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 1.6rem;
+    border: none;
+    cursor: pointer;
+    padding: 0.8rem;
+    transition: all 0.3s;
+  }
+}
+
+.plusBtn:hover {
+  background-color: var(--emerald);
+  color: var(--black);
+}
+.minusBtn:hover {
+  background-color: var(--red);
+  color: white;
 }
 
 
