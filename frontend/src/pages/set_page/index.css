@@ -57,9 +57,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 70%;
-  margin: 0 auto;
-  margin-top: 1rem;
+  margin: 2rem 2rem;
   padding: 1rem;
   border-radius: 3rem;
   border: 2px solid var(--emerald);
@@ -128,4 +126,20 @@
 }
 .set-page-share-icon:hover {
   border-color: var(--blue);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .set-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .setTitle {
+    font-size: 1.5rem;
+  }
+
+  .set-page-parts-list {
+    grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  }
 }
