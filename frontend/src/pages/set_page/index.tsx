@@ -249,12 +249,12 @@ export default function SetPage() {
 
   function generateBase36URL(urlData: { url: string, partsCount: number[] }): string {
     console.log(urlData.partsCount);
-    
+
     const lengths = urlData.partsCount.map(n => n.toString().length.toString(36));
-    
+
     // change the number to base36
     const numbers = urlData.partsCount.map(n => n.toString(36));
-    
+
     // combine the length and the number
     return lengths.join('') + '-' + numbers.join('');
   }
@@ -262,20 +262,20 @@ export default function SetPage() {
   function decodeBase36URL(encoded: string): number[] {
     try {
       const [lengthsStr, numbersStr] = encoded.split('-');
-      
+
       // parse the length
       const lengths = lengthsStr.split('').map(c => parseInt(c, 36));
-      
+
       // extract the number
       const result = [];
       let pos = 0;
-      
+
       for (const len of lengths) {
         const numStr = numbersStr.substring(pos, pos + len);
         result.push(parseInt(numStr, 36));
         pos += len;
       }
-      
+
       return result;
     } catch (error) {
       console.error('Base36 decoding error', error);
@@ -330,9 +330,7 @@ export default function SetPage() {
           </div>
 
           <div className='set-container'>
-            <a href='#' target="_blank" rel="noopener noreferrer">
-              <img src={setData?.setImgUrl} alt="set" />
-            </a>
+            <img src={setData?.setImgUrl} alt="set" />
             <p className='setTitle'>{setData?.name}</p>
             <div className='setMetadata'>
               <Tag bordered={false} icon={<UnorderedListOutlined />}>{setData?.numParts} parts</Tag>
