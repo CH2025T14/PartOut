@@ -2,7 +2,7 @@ import { Tabs } from 'antd';
 import { useState, useEffect } from 'react';
 import './index.css';
 import PartBox from '../partBox/index';
-import { getParts } from '../../services/fetchPartData';
+import { getPartData } from '../../services/fetchPartData';
 
 interface Part {
   partName: string;
@@ -40,7 +40,7 @@ export default function SetPage() {
   useEffect(() => {
     const fetchPartData = async () => {
       console.log('fetching part data');
-      const partData = await getParts(set_ID);
+      const partData = await getPartData(set_ID);
       setPartData(partData);
       console.log(partData.length);
     };
@@ -56,15 +56,15 @@ export default function SetPage() {
       </div>
 
 
-      
+
         {key === '1' && <div className='set-page-parts-list'>
           {partData.map((part: Part) => (
             <PartBox key={part.partId} part={part} />
           ))}
         </div>}
-      
 
-      
+
+
       {key === '2' && <div className='set-page-completed-parts-list'>
         {partData.map((part: Part) => (
           <PartBox key={part.partId} part={part} />
