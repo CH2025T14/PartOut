@@ -15,7 +15,7 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
   const [currentQty, setCurrentQty] = useState(currQty);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  
+
   useEffect(() => {
     setCurrentQty(currQty);
   }, [currQty]);
@@ -28,21 +28,21 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
 
     if (currQty === part.targetQty) {
       console.log(`Target quantity reached for ${part.partName}, setting timer...`);
-      
+
       timerRef.current = setTimeout(() => {
         console.log(`Timer complete for ${part.partName}`);
         setCurrentQty(part.currQty);
       }, 3000);
     }
 
-    
+
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
         timerRef.current = null;
       }
     };
-  }, [currQty, part.targetQty]);
+  }, [currQty, part.currQty, part.targetQty, part.partName]);
 
   function handleRemove() {
     removeCurrentPart(part);
@@ -76,15 +76,15 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
         </div>
       </div>
       <div className='part-box-button-container'>
-        <button 
-          className="minusBtn" 
+        <button
+          className="minusBtn"
           onClick={handleRemove}
           disabled={currQty <= 0}
         >
           <MinusOutlined />
         </button>
-        <button 
-          className="plusBtn" 
+        <button
+          className="plusBtn"
           onClick={handleAdd}
           disabled={currQty >= part.targetQty}
         >

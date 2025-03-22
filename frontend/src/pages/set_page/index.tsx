@@ -1,6 +1,6 @@
 import { Popover, Tabs, Spin, Tag, FloatButton, Select } from 'antd';
 import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
 import PartBox from '../partBox/index';
@@ -28,7 +28,7 @@ export default function SetPage() {
     setKey(newKey);
   };
 
-  const [urlData, setUrlData] = useState<{url: string, partsCount: number[]} | null>(null);
+  const [urlData, setUrlData] = useState<{url: string | null | undefined, partsCount: number[]} | null>(null);
 
   const { setNumber } = useParams<{ setNumber: string }>();
   const { partCountData } = useParams<{ partCountData: string | undefined}>();
@@ -45,7 +45,7 @@ const items = [
   ];
 
   function generateUrlDataObject(numParts: number) {
-    let urlData = {
+    const urlData = {
       url: '',
       partsCount: new Array(numParts).fill(0),
     };
@@ -99,9 +99,9 @@ function decodeBase64URL(base64: string): number[] {
     });
   }
 
-  function update_local_storage(){
+  function updateLocalStorage(){
     const setList = JSON.parse(localStorage.getItem('setList') || '[]');
-    const setIndex = setList.findIndex(set => set.number === Number(setNumber));
+    const setIndex = setList.findIndex((set: Set) => set.number === Number(setNumber));
     if (setIndex !== -1) {
       setList[setIndex].partUrl = generateURL(urlData);
       localStorage.setItem('setList', JSON.stringify(setList));
@@ -135,10 +135,11 @@ function decodeBase64URL(base64: string): number[] {
 
             if (urlData && urlData.partsCount) {
               setUrlData(prev => {
+                if (!prev) return prev;
                 const newPartsCount = [...prev.partsCount];
                 newPartsCount[partIndex] = newCurrQty;
                 return {
-                  ...prev,
+                  url: prev.url,
                   partsCount: newPartsCount
                 };
               });
@@ -150,7 +151,7 @@ function decodeBase64URL(base64: string): number[] {
       });
 
       setNumCompletedParts(prev => prev + 1);
-      
+
     }
   }
 
@@ -168,6 +169,7 @@ function decodeBase64URL(base64: string): number[] {
             const newCurrQty = p.currQty - 1;
             if (urlData && urlData.partsCount) {
               setUrlData(prev => {
+                if (!prev) return prev;
                 const newPartsCount = [...prev.partsCount];
                 newPartsCount[partIndex] = newCurrQty;
                 return {
@@ -204,11 +206,14 @@ function decodeBase64URL(base64: string): number[] {
     partData.map(part => [part.colorName, part.colorRgb])
   );
 
+  const totalPartCount = partData.reduce((acc, curr) => acc + curr.targetQty, 0);
+
   useEffect(() => {
     const fetchPartData = async () => {
-      const partData = await getPartData(setNumber);
+      if (!setNumber) return;
+      const partData = await getPartData(Number(setNumber));
       setPartData(partData);
-      const setData = await getSetData(setNumber);
+      const setData = await getSetData(Number(setNumber));
       if (setData) {
         setSetData(setData);
       }
@@ -220,6 +225,7 @@ function decodeBase64URL(base64: string): number[] {
       }
     };
     fetchPartData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -230,8 +236,9 @@ function decodeBase64URL(base64: string): number[] {
 
         setFirstRender(false);
       }
-      update_local_storage();
+      updateLocalStorage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlData]);
 
   function getBaseUrl() {
@@ -295,7 +302,7 @@ function decodeBase64URL(base64: string): number[] {
               <Tag bordered={false} icon={<CalendarOutlined />}>{setData?.year}</Tag>
             </div>
             <div className='set-page-percentage-details'>
-              <p>{numCompletedParts} out of {setData?.numParts} parts / {Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
+              <p>{numCompletedParts} out of {totalPartCount} parts / {Math.round((numCompletedParts / totalPartCount) * 100)}% completed</p>
             </div>
           </div>
 
@@ -309,7 +316,8 @@ function decodeBase64URL(base64: string): number[] {
               placeholder="Filter by color"
               onChange={handleFilterChange}
             >
-              {Array.from(colorMap.entries()).map(([name, rgb]) => {
+              {/* TODO: Apply rgb color */}
+              {Array.from(colorMap.entries()).map(([name]) => {
                 return (
                   <Select.Option key={name} value={name}>
                     <span>
@@ -354,5 +362,3 @@ function decodeBase64URL(base64: string): number[] {
     </div>
   );
 }
-
-
