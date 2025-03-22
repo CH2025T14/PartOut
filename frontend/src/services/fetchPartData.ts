@@ -1,4 +1,4 @@
-export async function getParts(setNum: number) {
+export async function getPartData(setNum: number) {
   interface ApiResponseItem {
     part: Part;
     quantity: number;
