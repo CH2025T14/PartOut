@@ -11,6 +11,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --emerald: #8ae9c9;
+  --lightgray1: #eeeeee;
+  --lightgray2: #e0e0e0;
+  --black: #616161;
 }
 
 a {
@@ -80,16 +85,39 @@ button:focus-visible {
   font-family: inherit;
 }
 :where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
-  background-color: #8ae9c9;
+  background-color: var(--emerald);
   color: #fff;
   border: 1px solid transparent;
 }
+:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active {
+  background-color: var(--emerald);
+  color: #fff;
+  border: 1px solid transparent;
+}
+:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):focus {
+  background-color: var(--emerald);
+  color: #fff;
+  border: 1px solid transparent;
+  outline: none;
+}
+
 
 /* SearchBar Radius */
 .ant-input-search :where(.css-dev-only-do-not-override-tjsggz).ant-input-group .ant-input-affix-wrapper:not(:last-child) {
   border-start-start-radius: 1rem;
   border-end-start-radius: 1rem;
 }
-:where(.css-dev-only-do-not-override-tjsggz).ant-input-group-wrapper-lg .ant-input-group-addon {
-  /* border-radius: 1rem; */
+:where(.css-dev-only-do-not-override-tjsggz).ant-input-search>.ant-input-group>.ant-input-group-addon:last-child .ant-input-search-button {
+  border-start-end-radius: 1rem;
+  border-end-end-radius: 1rem;
 }
+
+/* SearchBar Border */
+:where(.css-dev-only-do-not-override-tjsggz).ant-input-outlined:hover {
+  border-color: var(--emerald);
+}
+:where(.css-dev-only-do-not-override-tjsggz).ant-input-outlined:focus,
+:where(.css-dev-only-do-not-override-tjsggz).ant-input-outlined:focus-within {
+  outline: none;
+}
+
