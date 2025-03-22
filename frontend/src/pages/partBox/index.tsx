@@ -23,12 +23,16 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
 
     function removeCurrentPartAndUpdate(part: Part) {
         removeCurrentPart(part);
-        setCurrentQty(currentQty - 1);
+        if (currentQty > 0) {
+            setCurrentQty(currentQty - 1);
+        }
     }
 
     function addCurrentPartAndUpdate(part: Part) {
         addCurrentPart(part);
-        setCurrentQty(currentQty + 1);
+        if (currentQty < part.targetQty) {
+            setCurrentQty(currentQty + 1);
+        }
     }
 
 
