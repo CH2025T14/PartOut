@@ -1,7 +1,7 @@
 import { Input, Image, Empty, message, Popover } from 'antd';
 import {
   PlusOutlined,
-  BorderOuterOutlined,
+  ProductFilled,
   CalendarOutlined,
   UnorderedListOutlined,
   DeleteOutlined,
@@ -141,7 +141,7 @@ export default function Home(): React.ReactElement {
     <div className="homeContainer">
       {contextHolder}
       <div className="logoContainer">
-        <BorderOuterOutlined className="mainLogo" /><h1>PartOut</h1>
+        <ProductFilled className="mainLogo" /><h1>PartOut</h1>
       </div>
 
       <Search
