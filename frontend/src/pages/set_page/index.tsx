@@ -291,7 +291,7 @@ function decodeBase64URL(base64: string): number[] {
           <div style={{ width: '100%', backgroundColor: '#efefef', height: '1rem' }}>
             <div
               style={{
-                width: `${(setData?.numParts > 0 ? (numCompletedParts / setData?.numParts) * 100 : 0)}%`,
+                width: `${(setData?.numParts > 0 ? (Math.round((numCompletedParts / totalPartCount) * 100)) : 0)}%`,
                 backgroundColor: '#52c597',
                 height: '100%',
                 transition: 'width 0.3s ease-in-out'
