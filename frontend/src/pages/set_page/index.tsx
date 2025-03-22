@@ -191,6 +191,8 @@ const items = [
     partData.map(part => [part.colorName, part.colorRgb])
   );
 
+  const totalPartCount = partData.reduce((acc, curr) => acc + curr.targetQty, 0);
+
   useEffect(() => {
     const fetchPartData = async () => {
       if (!setNumber) return;
@@ -285,7 +287,7 @@ const items = [
               <Tag bordered={false} icon={<CalendarOutlined />}>{setData?.year}</Tag>
             </div>
             <div className='set-page-percentage-details'>
-              <p>{numCompletedParts} out of {setData?.numParts} parts / {Math.round((numCompletedParts / setData?.numParts) * 100)}% completed</p>
+              <p>{numCompletedParts} out of {totalPartCount} parts / {Math.round((numCompletedParts / totalPartCount) * 100)}% completed</p>
             </div>
           </div>
 
