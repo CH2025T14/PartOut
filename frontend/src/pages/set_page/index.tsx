@@ -7,9 +7,13 @@ import PartBox from '../partBox/index';
 import { getPartData } from '../../services/fetchPartData';
 import { getSetData } from '../../services/fetchSetData';
 import type { Part, Set } from '../../types/types';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 export default function SetPage() {
+  const navigate = useNavigate();
   const [key, setKey] = useState('1');
   const [partData, setPartData] = useState<Part[]>([]);
   const [setData, setSetData] = useState<Set | null>(null);
@@ -232,7 +236,9 @@ export default function SetPage() {
       ) : (
         <>
           <div className='set-page-set-info'>
-            <div className="headerLogoContainer">
+            <div className="headerLogoContainer" onClick={() => {
+                navigate('/');
+              }}>
               <ProductFilled className="headerLogo" /><h1>PartOut</h1>
             </div>
             <Popover content="Click to generate & copy the URL">
