@@ -1,11 +1,6 @@
-export interface Set {
-  name: string;
-  year: number;
-  numParts: number;
-  setImgUrl: string;
-}
+import { Set } from "../types/types";
 
-export async function getSetData(setNum: number) {
+export async function getSetData(setNum: number): Promise<Set | undefined> {
 
   const url = "https://rebrickable.com/api/v3/lego/sets/" + setNum + "-1/";
   const apiKey = import.meta.env.VITE_REBRICKABLE_API_KEY;

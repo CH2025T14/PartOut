@@ -1,16 +1,6 @@
-export async function getPartData(setNum: number, page: number = 1) {
-  interface ApiResponseItem {
-    id: number;
-    part: Part;
-    quantity: number;
-    is_spare: boolean;
-  }
+import { ApiResponseItem, Part } from "../types/types";
 
-  interface Part {
-    part_num: string;
-    name: string;
-    part_img_url: string;
-  }
+export async function getPartData(setNum: number, page: number = 1): Promise<Part[]> {
 
   const url = `https://rebrickable.com/api/v3/lego/sets/${setNum}-1/parts/?ordering=results&page_size=1000&page=${page}`;
   const apiKey = import.meta.env.VITE_REBRICKABLE_API_KEY;
@@ -49,5 +39,6 @@ export async function getPartData(setNum: number, page: number = 1) {
     }
   } catch (error) {
     console.error("Error fetching parts:", error);
+    return [];
   }
 }

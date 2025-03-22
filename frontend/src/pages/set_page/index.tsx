@@ -4,22 +4,7 @@ import './index.css';
 import PartBox from '../partBox/index';
 import { getPartData } from '../../services/fetchPartData';
 import { getSetData } from '../../services/fetchSetData';
-
-interface Part {
-  partName: string;
-  partId: string;
-  targetQty: number;
-  currQty: number;
-  imgUrl: string;
-}
-
-
-interface Set {
-  name: string;
-  year: number;
-  numParts: number;
-  setImgUrl: string;
-}
+import { Part, Set } from '../../types/types';
 
 const set_ID = 6666;
 
