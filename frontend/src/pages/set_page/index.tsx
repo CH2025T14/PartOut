@@ -33,13 +33,13 @@ export default function SetPage() {
   const { setNumber } = useParams<{ setNumber: string }>();
   const { partCountData } = useParams<{ partCountData: string | undefined}>();
 
-  const items = [
-    {
-      key: '1',
+const items = [
+  {
+    key: '1',
       label: 'parts list',
-    },
-    {
-      key: '2',
+  },
+  {
+    key: '2',
       label: 'completed parts',
     },
   ];
@@ -226,6 +226,12 @@ export default function SetPage() {
 
   const baseUrl = getBaseUrl();
 
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(baseUrl + '/set_page/' + setData?.number + '/' + generateURL(urlData));
+    alert('URL copied to clipboard');
+  };
+
   return (
     <div className='set-page-container'>
       {!setData ? (
@@ -243,7 +249,7 @@ export default function SetPage() {
               <ShareAltOutlined
                 className='set-page-share-icon'
                 onClick={() => {
-                  navigator.clipboard.writeText(baseUrl + '/set_page/' + setData?.number + '/' + generateURL(urlData));
+                  handleCopy();
                 }}
               />
             </Popover>

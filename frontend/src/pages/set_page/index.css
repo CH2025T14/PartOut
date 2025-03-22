@@ -53,6 +53,17 @@
   cursor: pointer;
 }
 
+.set-page-share-icon-success {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1rem;
+  color: var(--emerald2);
+  margin-left: 0.4rem;
+  animation: fadeOut 1s forwards;
+}
+
+
 .set-container {
   display: flex;
   flex-direction: row;
