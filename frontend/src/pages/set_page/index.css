@@ -7,14 +7,27 @@
     bottom: 0;
 }
 
-.set-page-tabs {
+.set-page-set-info {
     margin-top: 20px;
+    margin-left: 20px;
+}
+
+.set-page-set-info img {
+    margin-top: 2rem;
+    width: 15rem;
+    height: 15rem;
+}
+
+.set-page-tabs {
+
     margin-left: 20px;
 }
 
 .set-page-parts-list {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5rem;
 
+    margin-left: 10rem;
+    margin-right: 10rem;
 }
