@@ -131,8 +131,8 @@ export default function Home(): React.ReactElement {
             <div className="setDataMeta">
               <h2>{setData.name}</h2>
               <div className="setDataDetails">
-                <p><CalendarOutlined /> Released: {setData.year}</p>
-                <p><UnorderedListOutlined /> {setData.numParts} parts</p>
+                <p><div className="metaDataIconChip"><CalendarOutlined /></div> Released: {setData.year}</p>
+                <p><div className="metaDataIconChip"><UnorderedListOutlined /></div> {setData.numParts} parts</p>
               </div>
             </div>
           </div>
