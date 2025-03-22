@@ -36,13 +36,26 @@ export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQ
         <img src={currentPart.imgUrl} alt={currentPart.partName} />
       </Popover>
       <div>
-        {/* <h3>{currentPart.partName}</h3> */}
         <p>{currentQty} out of {currentPart.targetQty}</p>
-        {/* TODO: Add progress bar */}
+        <div style={{ width: '100%', backgroundColor: '#e0e0e0', borderRadius: '4px', height: '10px' }}>
+          <div
+            style={{
+              width: `${(currentPart.targetQty > 0 ? (currentQty / currentPart.targetQty) * 100 : 0)}%`,
+              backgroundColor: '#52c597',
+              height: '100%',
+              borderRadius: '4px',
+              transition: 'width 0.3s ease-in-out'
+            }}
+            role="progressbar"
+            aria-valuenow={currentQty}
+            aria-valuemin={0}
+            aria-valuemax={currentPart.targetQty}
+          ></div>
+        </div>
       </div>
       <div className='part-box-button-container'>
-        <button className="plusBtn" onClick={() => addCurrentPartAndUpdate(currentPart)}><PlusOutlined /></button>
         <button className="minusBtn" onClick={() => removeCurrentPartAndUpdate(currentPart)}><MinusOutlined /></button>
+        <button className="plusBtn" onClick={() => addCurrentPartAndUpdate(currentPart)}><PlusOutlined /></button>
       </div>
     </div>
   );
