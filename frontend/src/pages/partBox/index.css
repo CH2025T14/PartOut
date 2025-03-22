@@ -13,20 +13,20 @@
   justify-content: center;
   gap: 1rem;
   margin-top: 0.8rem;
+}
 
-  button {
-    font-size: 0.8rem;
-    border-radius: 1.6rem;
-    border: none;
-    cursor: pointer;
-    padding: 0.8rem;
-    width: 2.4rem;
-    height: 2.4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s;
-  }
+.part-box-button-container button {
+  font-size: 0.8rem;
+  border-radius: 1.6rem;
+  border: none;
+  cursor: pointer;
+  padding: 0.8rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
 }
 
 .plusBtn:hover {
@@ -37,6 +37,3 @@
   background-color: var(--red);
   color: white;
 }
-
-
-

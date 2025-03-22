@@ -75,7 +75,7 @@ export default function Home(): React.ReactElement {
       year: setData.year,
       numParts: setData.numParts,
       setImgUrl: setData.setImgUrl,
-      partUrl: "",
+      partUrl: "0",
     };
 
     // Check if the set already exists in the set list

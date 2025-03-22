@@ -156,11 +156,11 @@ hr {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
 
-  h2 {
-    font-size: 1.5rem;
-    color: var(--black);
-  }
+.projectMeta h2 {
+  font-size: 1.5rem;
+  color: var(--black);
 }
 
 .projectThumbnail {
@@ -169,13 +169,13 @@ hr {
   justify-content: center;
   align-items: center;
   padding: 0.6rem;
+}
 
-  img {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 1em;
-    margin-right: 1rem;
-  }
+.projectThumbnail img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 1em;
+  margin-right: 1rem;
 }
 
 .optionBtn {

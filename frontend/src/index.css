@@ -78,62 +78,65 @@ button:focus-visible {
 /* CUSTOM CSS STYLING STARTS HERE */
 
 /* SearchBar Button */
-:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid {
-  background-color: #4d4d4d;
-  color: #fff;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-}
-:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
-  background-color: var(--emerald);
-  color: #fff;
-  border: 1px solid transparent;
-}
-:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active {
-  background-color: var(--emerald);
-  color: #fff;
-  border: 1px solid transparent;
-}
-:where(.css-dev-only-do-not-override-tjsggz).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):focus {
-  background-color: var(--emerald);
-  color: #fff;
-  border: 1px solid transparent;
-  outline: none;
+/* Target buttons without the dev prefix */
+.ant-btn-variant-solid {
+  background-color: #4d4d4d !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
+  padding: 0.6em 1.2em !important;
+  font-size: 1em !important;
+  font-weight: 500 !important;
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif !important;
 }
 
-/* SearchBar Placeholder */
-:where(.css-dev-only-do-not-override-tjsggz).ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input {
-  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
+.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+  background-color: var(--emerald) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
 }
 
-/* SearchBar Radius */
-.ant-input-search :where(.css-dev-only-do-not-override-tjsggz).ant-input-group .ant-input-affix-wrapper:not(:last-child) {
-  border-start-start-radius: 1rem;
-  border-end-start-radius: 1rem;
-}
-:where(.css-dev-only-do-not-override-tjsggz).ant-input-search>.ant-input-group>.ant-input-group-addon:last-child .ant-input-search-button {
-  border-start-end-radius: 1rem;
-  border-end-end-radius: 1rem;
+.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active {
+  background-color: var(--emerald) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
 }
 
-/* SearchBar Border */
-:where(.css-dev-only-do-not-override-tjsggz).ant-input-outlined:hover {
-  border-color: var(--emerald);
-}
-:where(.css-dev-only-do-not-override-tjsggz).ant-input-outlined:focus,
-:where(.css-dev-only-do-not-override-tjsggz).ant-input-outlined:focus-within {
-  outline: none;
+.ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):focus {
+  background-color: var(--emerald) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
+  outline: none !important;
 }
 
-/* Empty Description */
-:where(.css-dev-only-do-not-override-tjsggz).ant-empty .ant-empty-description {
-  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
+/* Input styling */
+.ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input {
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif !important;
 }
 
-/* PopOver Text */
-:where(.css-dev-only-do-not-override-tjsggz).ant-popover .ant-popover-title {
-  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
+.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child) {
+  border-start-start-radius: 1rem !important;
+  border-end-start-radius: 1rem !important;
+}
+
+.ant-input-search>.ant-input-group>.ant-input-group-addon:last-child .ant-input-search-button {
+  border-start-end-radius: 1rem !important;
+  border-end-end-radius: 1rem !important;
+}
+
+.ant-input-outlined:hover {
+  border-color: var(--emerald) !important;
+}
+
+.ant-input-outlined:focus,
+.ant-input-outlined:focus-within {
+  outline: none !important;
+}
+
+/* Other components */
+.ant-empty .ant-empty-description {
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.ant-popover .ant-popover-title {
+  font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif !important;
 }
