@@ -1,7 +1,7 @@
 import { Input, Image, Empty, message, Tooltip } from 'antd';
-import { UploadOutlined, PlusOutlined, BorderOuterOutlined, CalendarOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { UploadOutlined, PlusOutlined, BorderOuterOutlined, CalendarOutlined, UnorderedListOutlined, CloseOutlined } from '@ant-design/icons';
 import { Link, Outlet } from "react-router";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getSetData } from '../../services/fetchSetData';
 import { Set } from '../../types/types';
 // import { getPartData } from '../../services/fetchPartData';
@@ -55,8 +55,10 @@ export default function Home(): React.ReactElement {
         content: 'No set data to add',
         duration: 2,
       });
+
       return;
     }
+
 
 
     // Create a new set object
@@ -82,13 +84,36 @@ export default function Home(): React.ReactElement {
     // Update the set list in state
     setSetList((prevSetList) => {
       const newSetList = [...prevSetList, newSet];
-      localStorage.setItem('setList', JSON.stringify(newSetList));
+
+      // Update the set list in local storage
+      const modifiedSetList = newSetList.map(set => ({
+        ...set,
+        partUrl: "test"
+      }));
+      localStorage.setItem('setList', JSON.stringify(modifiedSetList));
       return newSetList;
     });
 
     // Clear the set data after adding
     setSetData(null);
   }
+
+  const initializeSetList = () => {
+    let storedSetList = localStorage.getItem('setList');
+    if (!storedSetList) {
+      localStorage.setItem('setList', JSON.stringify([]));
+      storedSetList = '[]';
+    }
+    const parsedSetList = JSON.parse(storedSetList);
+    setSetList(parsedSetList);
+  }
+
+
+  // Initialize the set list when the component mounts
+  useEffect(() => {
+    initializeSetList();
+  }, []);
+
 
   return (
     <div className="homeContainer">
@@ -144,19 +169,29 @@ export default function Home(): React.ReactElement {
         { setList.length > 0 ? (
           <div className="projectList">
             {setList.map((set, index) => (
-              <Link to="/set_page">
-                <div key={index} className="projectItem">
-                  <Image
-                    src={set.setImgUrl}
-                    alt={set.name}
-                    preview={false}
-                    style={{ objectFit: 'cover', maxHeight: '120px' }}
-                  />
+              <div key={index} className="projectItem">
+                  <Link to="/set_page">
+                    <Image
+                      src={set.setImgUrl}
+                      alt={set.name}
+                      preview={false}
+                      style={{ objectFit: 'cover', maxHeight: '120px' }}
+                    />
+                  </Link>
                   <div className="projectMeta">
                     <h2>{set.name}</h2>
                   </div>
+                  <CloseOutlined
+                    className="removeSetBtn"
+                    onClick={() => {
+                      setSetList((prevSetList) => {
+                        const newSetList = prevSetList.filter((_, i) => i !== index);
+                        localStorage.setItem('setList', JSON.stringify(newSetList));
+                        return newSetList;
+                      });
+                    }}
+                  />
                 </div>
-              </Link>
             ))}
           </div>
         ) : (
