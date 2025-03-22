@@ -1,4 +1,5 @@
 import { Tabs } from 'antd';
+import { LinkOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import './index.css';
 import PartBox from '../partBox/index';
@@ -68,7 +69,6 @@ export default function SetPage() {
               urlData.partsCount[partIndex] = newCurrQty;
             }
 
-            console.log(partIndex, "and", newCurrQty);
             return { ...p, currQty: newCurrQty };
           }
           return p;
@@ -137,7 +137,7 @@ export default function SetPage() {
             <p>Percentage of completion: {Math.round((numCompletedParts / setData?.numParts) * 100)}%</p>
             <button onClick={() => {
               console.log(generateURL(urlData));
-            }}>Generate URL</button>
+            }}>Generate URL<LinkOutlined /></button>
           </div>
 
           <div className='set-page-tabs'>
