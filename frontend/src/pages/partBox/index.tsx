@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { Part } from '../../types/types';
 import './index.css';
@@ -14,6 +14,8 @@ interface PartBoxProps {
 export default function PartBox({ part, addCurrentPart, removeCurrentPart, currQty }: PartBoxProps) {
   const [currentPart, setCurrentPart] = useState(part);
   const [currentQty, setCurrentQty] = useState(currQty);
+
+  
 
   function removeCurrentPartAndUpdate(part: Part) {
     removeCurrentPart(part);

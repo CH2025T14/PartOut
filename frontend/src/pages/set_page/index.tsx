@@ -8,7 +8,6 @@ import { getPartData } from '../../services/fetchPartData';
 import { getSetData } from '../../services/fetchSetData';
 import { Part, Set } from '../../types/types';
 
-// const set_ID = 6666;
 
 export default function SetPage() {
   const [key, setKey] = useState('1');
@@ -24,11 +23,9 @@ export default function SetPage() {
 
   const [urlData, setUrlData] = useState<{url: string, partsCount: number[]} | null>(null);
 
-  // TODO: change this
-  const urlDataIsNotGiven = true;
   
   const { setNumber } = useParams<{ setNumber: string }>();
-  const { partCountData } = useParams<{ partCountData: string }>();
+  const { partCountData } = useParams<{ partCountData: string | undefined}>();
 
   const items = [
     {
@@ -57,6 +54,29 @@ export default function SetPage() {
     url = url.slice(0, -1);
     return url;
   }
+
+  function applyUrlDataObject(partCountData: string){
+    const partsCount_data = partCountData.split('-').map(Number);
+    console.log(partsCount_data);
+
+    setUrlData(prev => {
+      return {
+        ...prev,
+        url: '',
+        partsCount: partsCount_data,
+      };
+    });
+  }
+
+
+  function applyURLdata2CurrentQty(){
+    setPartData(prevPartData => {
+      return prevPartData.map((part, index) => {
+        return { ...part, currQty: urlData?.partsCount[index] || 0 };
+      });
+    });
+  }
+
 
 
   function addCurrentPart(part: Part) {
@@ -117,13 +137,24 @@ export default function SetPage() {
       if (setData) {
         setSetData(setData);
       }
-      if (urlDataIsNotGiven){
+      if (!partCountData){
         generateUrlDataObject(partData.length);
       }
-
+      else{
+        console.log('retrieving url data');
+        applyUrlDataObject(partCountData);
+      }
     };
     fetchPartData();
   }, []);
+
+  useEffect(() => {
+    if (urlData?.partsCount) {
+      console.log('urlData changed, applying to currentQty');
+      console.log(urlData.partsCount);
+      applyURLdata2CurrentQty();
+    }
+  }, [urlData]);
 
 
 
