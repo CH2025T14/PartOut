@@ -1,6 +1,6 @@
 import { Popover, Tabs, Spin, Tag, FloatButton, Select } from 'antd';
 import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
 import PartBox from '../partBox/index';
@@ -28,7 +28,7 @@ export default function SetPage() {
     setKey(newKey);
   };
 
-  const [urlData, setUrlData] = useState<{url: string, partsCount: number[]} | null>(null);
+  const [urlData, setUrlData] = useState<{url: string | null | undefined, partsCount: number[]} | null>(null);
 
   const { setNumber } = useParams<{ setNumber: string }>();
   const { partCountData } = useParams<{ partCountData: string | undefined}>();
@@ -45,15 +45,16 @@ const items = [
   ];
 
   function generateUrlDataObject(numParts: number) {
-    let urlData = {
+    const urlData = {
       url: '',
       partsCount: new Array(numParts).fill(0),
     };
     setUrlData(urlData);
   }
 
-  function generateURL(urlData: {url: string, partsCount: number[]}) {
-    let url = urlData.url;
+  function generateURL(urlData: {url: string | null | undefined, partsCount: number[]} | null) {
+    if (!urlData) return '';
+    let url = urlData.url || '';
     for (let i = 0; i < urlData.partsCount.length; i++) {
       url = url + urlData.partsCount[i] + '-';
     }
@@ -83,9 +84,9 @@ const items = [
     });
   }
 
-  function update_local_storage(){
+  function updateLocalStorage(){
     const setList = JSON.parse(localStorage.getItem('setList') || '[]');
-    const setIndex = setList.findIndex(set => set.number === Number(setNumber));
+    const setIndex = setList.findIndex((set: Set) => set.number === Number(setNumber));
     if (setIndex !== -1) {
       setList[setIndex].partUrl = generateURL(urlData);
       localStorage.setItem('setList', JSON.stringify(setList));
@@ -119,10 +120,11 @@ const items = [
 
             if (urlData && urlData.partsCount) {
               setUrlData(prev => {
+                if (!prev) return prev;
                 const newPartsCount = [...prev.partsCount];
                 newPartsCount[partIndex] = newCurrQty;
                 return {
-                  ...prev,
+                  url: prev.url,
                   partsCount: newPartsCount
                 };
               });
@@ -134,7 +136,7 @@ const items = [
       });
 
       setNumCompletedParts(prev => prev + 1);
-      
+
     }
   }
 
@@ -152,6 +154,7 @@ const items = [
             const newCurrQty = p.currQty - 1;
             if (urlData && urlData.partsCount) {
               setUrlData(prev => {
+                if (!prev) return prev;
                 const newPartsCount = [...prev.partsCount];
                 newPartsCount[partIndex] = newCurrQty;
                 return {
@@ -190,9 +193,10 @@ const items = [
 
   useEffect(() => {
     const fetchPartData = async () => {
-      const partData = await getPartData(setNumber);
+      if (!setNumber) return;
+      const partData = await getPartData(Number(setNumber));
       setPartData(partData);
-      const setData = await getSetData(setNumber);
+      const setData = await getSetData(Number(setNumber));
       if (setData) {
         setSetData(setData);
       }
@@ -204,6 +208,7 @@ const items = [
       }
     };
     fetchPartData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -214,8 +219,9 @@ const items = [
 
         setFirstRender(false);
       }
-      update_local_storage();
+      updateLocalStorage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlData]);
 
   function getBaseUrl() {
@@ -293,7 +299,8 @@ const items = [
               placeholder="Filter by color"
               onChange={handleFilterChange}
             >
-              {Array.from(colorMap.entries()).map(([name, rgb]) => {
+              {/* TODO: Apply rgb color */}
+              {Array.from(colorMap.entries()).map(([name]) => {
                 return (
                   <Select.Option key={name} value={name}>
                     <span>
@@ -338,5 +345,3 @@ const items = [
     </div>
   );
 }
-
-
