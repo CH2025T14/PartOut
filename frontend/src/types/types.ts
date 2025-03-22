@@ -34,4 +34,5 @@ export interface Set {
   year: number;
   numParts: number;
   setImgUrl: string;
+  partUrl: string;
 }

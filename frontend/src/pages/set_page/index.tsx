@@ -1,4 +1,4 @@
-import { Popover, Tabs, Spin, Tag, FloatButton, Select } from 'antd';
+import { Popover, Tabs, Spin, Tag, FloatButton, Select, message } from 'antd';
 import { ShareAltOutlined, ProductFilled, UnorderedListOutlined, CalendarOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -18,6 +18,7 @@ export default function SetPage() {
   const [partData, setPartData] = useState<Part[]>([]);
   const [setData, setSetData] = useState<Set | null>(null);
   const [filterColor, setFilterColor] = useState<string | null>(null);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [numCompletedParts, setNumCompletedParts] = useState<number>(0);
 
@@ -52,8 +53,8 @@ const items = [
     setUrlData(urlData);
   }
 
-  function generateURL(urlData: {url: string, partsCount: number[]}) {
-    return generateBase64URL(urlData);
+  function generateURL(urlData: {url: string | null | undefined, partsCount: number[]}) {
+    return generateBase64URL({url: urlData.url || '', partsCount: urlData.partsCount});
   }
 
   function applyUrlDataObject(partCountData: string){
@@ -74,7 +75,7 @@ const items = [
 
 function generateBase64URL(urlData: { url: string, partsCount: number[] }): string {
   const partsString = urlData.partsCount.join('-');
-  
+
   return btoa(partsString);
 }
 
@@ -82,7 +83,7 @@ function generateBase64URL(urlData: { url: string, partsCount: number[] }): stri
 function decodeBase64URL(base64: string): number[] {
   try {
     const decodedString = atob(base64);
-    
+
     return decodedString.split('-').map(Number);
   } catch (error) {
     console.error('Base64 decoding error', error);
@@ -100,6 +101,7 @@ function decodeBase64URL(base64: string): number[] {
   }
 
   function updateLocalStorage(){
+    if (!urlData) return;
     const setList = JSON.parse(localStorage.getItem('setList') || '[]');
     const setIndex = setList.findIndex((set: Set) => set.number === Number(setNumber));
     if (setIndex !== -1) {
@@ -251,8 +253,16 @@ function decodeBase64URL(base64: string): number[] {
 
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(baseUrl + '/set_page/' + setData?.number + '/' + generateURL(urlData));
-    alert('URL copied to clipboard');
+    if (urlData) {
+      navigator.clipboard.writeText(baseUrl + '/set_page/' + setData?.number + '/' + generateURL(urlData));
+      // alert('URL copied to clipboard');
+      // Show a toast message
+      messageApi.open({
+        type: 'success',
+        content: 'URL copied to clipboard',
+        duration: 2,
+      });
+    }
   };
 
   return (
@@ -264,6 +274,7 @@ function decodeBase64URL(base64: string): number[] {
         </div>
       ) : (
         <>
+          {contextHolder}
           <div className='set-page-set-info'>
             <div className="headerLogoContainer" >
               <ProductFilled className="headerLogo" onClick={() => {navigate('/');}}/><h1 onClick={() => {navigate('/');}}>PartOut</h1>
