@@ -25,6 +25,10 @@
   bottom: 0;
 }
 
+.set-page {
+  position: relative;
+}
+
 .set-page-set-info {
   display: flex;
   flex-direction: row;

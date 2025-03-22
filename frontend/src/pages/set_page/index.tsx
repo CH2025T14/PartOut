@@ -269,7 +269,7 @@ function decodeBase64URL(base64: string): number[] {
           <Spin size="large" />
         </div>
       ) : (
-        <>
+        <div className='set-page'>
           {contextHolder}
           <div className='set-page-set-info'>
             <div className="headerLogoContainer" >
@@ -284,7 +284,15 @@ function decodeBase64URL(base64: string): number[] {
               />
             </Popover>
           </div>
-          <div style={{ width: '100%', backgroundColor: '#efefef', height: '1rem' }}>
+          <div style={{
+              width: '100%',
+              backgroundColor: '#efefef',
+              height: '1rem',
+              position: 'sticky',
+              top: 0,
+              zIndex: 100
+            }}
+          >
             <div
               style={{
                 width: `${(setData?.numParts > 0 ? (Math.round((numCompletedParts / totalPartCount) * 100)) : 0)}%`,
@@ -366,7 +374,7 @@ function decodeBase64URL(base64: string): number[] {
               )
             ))}
           </div>}
-        </>
+        </div>
       )}
       <FloatButton.BackTop />
     </div>
