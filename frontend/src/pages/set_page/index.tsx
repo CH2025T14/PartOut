@@ -10,8 +10,6 @@ import type { Part, Set } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 
 
-
-
 export default function SetPage() {
   const navigate = useNavigate();
   const [key, setKey] = useState('1');
@@ -34,13 +32,13 @@ export default function SetPage() {
   const { setNumber } = useParams<{ setNumber: string }>();
   const { partCountData } = useParams<{ partCountData: string | undefined}>();
 
-const items = [
-  {
-    key: '1',
-      label: 'Parts List',
-  },
-  {
-    key: '2',
+  const items = [
+    {
+      key: '1',
+        label: 'Remaining Parts',
+    },
+    {
+      key: '2',
       label: 'Completed Parts',
     },
   ];
@@ -292,7 +290,7 @@ const items = [
           <Spin size="large" />
         </div>
       ) : (
-        <>
+        <div className='set-page'>
           {contextHolder}
           <div className='set-page-set-info'>
             <div className="headerLogoContainer" >
@@ -307,7 +305,15 @@ const items = [
               />
             </Popover>
           </div>
-          <div style={{ width: '100%', backgroundColor: '#efefef', height: '1rem' }}>
+          <div style={{
+              width: '100%',
+              backgroundColor: '#efefef',
+              height: '1rem',
+              position: 'sticky',
+              top: 0,
+              zIndex: 100
+            }}
+          >
             <div
               style={{
                 width: `${(setData?.numParts > 0 ? (Math.round((numCompletedParts / totalPartCount) * 100)) : 0)}%`,
@@ -389,7 +395,7 @@ const items = [
               )
             ))}
           </div>}
-        </>
+        </div>
       )}
       <FloatButton.BackTop />
     </div>

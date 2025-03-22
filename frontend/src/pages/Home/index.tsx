@@ -23,6 +23,10 @@ export default function Home(): React.ReactElement {
 
 
   const onSearch = async (value: string) => {
+    if (!value || value.trim() === '') {
+      setSetData(null);
+      return;
+    }
     if (!value || isNaN(parseInt(value))) {
       // Show a toast message
       messageApi.open({
@@ -152,6 +156,11 @@ export default function Home(): React.ReactElement {
         size="large"
         onSearch={onSearch}
         onChange={
+          () => {
+            setSetData(null);
+          }
+        }
+        onClear={
           () => {
             setSetData(null);
           }
