@@ -1,6 +1,6 @@
-# PartOut
+# [PartOut](https://partoutwebapp.web.app/)
 
-> CalvinHacks 2025
+> [CalvinHacks 2025](https://devpost.com/software/partout)
 
 #### Jason Chew, Daniel Kwon, Daniel Kim
 
